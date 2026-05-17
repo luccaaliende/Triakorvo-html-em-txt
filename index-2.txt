@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Triakorvo — Guia do Jogador</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Cinzel+Decorative:wght@400;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#07070f;--surface:#0d0d1a;--surface2:#12121f;--border:#2a2a3a;--text:#c8c8e8;--text-dim:#6a6a8a;--gold:#c8a96e;--gold-dim:#7a6020;--energia:#3388ff;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:"IM Fell English",serif;min-height:100vh;overflow-x:hidden;}
+body::before{content:"";position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;}
+.header{text-align:center;padding:50px 20px 36px;border-bottom:1px solid var(--border);background:linear-gradient(180deg,#0d0d20,var(--bg));position:relative;}
+.header::after{content:"";position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:300px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.header img{width:100px;height:100px;object-fit:contain;margin-bottom:14px;filter:drop-shadow(0 0 20px rgba(200,169,110,.4));}
+.header-eyebrow{font-family:"Cinzel",serif;font-size:.65rem;letter-spacing:.4em;color:var(--text-dim);margin-bottom:10px;}
+.header h1{font-family:"Cinzel Decorative",serif;font-size:clamp(1.8rem,5vw,3rem);color:var(--gold);letter-spacing:.2em;text-shadow:0 0 40px rgba(200,169,110,.3);}
+.header h2{font-family:"Cinzel",serif;font-size:.85rem;color:var(--text-dim);letter-spacing:.3em;margin-top:6px;font-weight:400;}
+.steps-nav{display:flex;justify-content:center;flex-wrap:wrap;border-bottom:1px solid var(--border);background:var(--surface);position:sticky;top:0;z-index:100;}
+.step-tab{font-family:"Cinzel",serif;font-size:.6rem;letter-spacing:.12em;color:var(--text-dim);padding:12px 14px;cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;transition:all .2s;display:flex;align-items:center;gap:5px;}
+.step-tab:hover{color:var(--text);}
+.step-tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+.step-tab.active .step-num{background:var(--gold);color:#000;}
+.step-num{width:16px;height:16px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:.55rem;color:var(--text-dim);flex-shrink:0;}
+.main{max-width:900px;margin:0 auto;padding:32px 16px 80px;}
+.section{display:none;}.section.active{display:block;}
+.step-header{display:flex;align-items:center;gap:14px;margin-bottom:20px;}
+.step-badge{width:44px;height:44px;border-radius:50%;background:var(--surface2);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:"Cinzel Decorative",serif;font-size:1.1rem;color:var(--gold);flex-shrink:0;}
+.step-info h3{font-family:"Cinzel",serif;font-size:1rem;color:var(--gold);letter-spacing:.12em;}
+.step-info p{font-size:.82rem;color:var(--text-dim);font-style:italic;margin-top:2px;}
+.section-subtitle{font-style:italic;color:var(--text-dim);font-size:.88rem;margin-bottom:20px;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:2px;padding:18px;margin-bottom:14px;position:relative;}
+.card::before{content:"";position:absolute;top:0;left:0;width:3px;height:100%;background:var(--gold);border-radius:2px 0 0 2px;}
+.card.blue::before{background:var(--energia);}
+.card.red::before{background:#cc4444;}
+.card.green::before{background:#22aa55;}
+.card-title{font-family:"Cinzel",serif;font-size:.88rem;letter-spacing:.1em;color:var(--gold);margin-bottom:10px;}
+.card p{color:var(--text-dim);font-size:.88rem;line-height:1.7;margin-bottom:6px;}
+.card p:last-child{margin-bottom:0;}
+.info-box{background:#0a0f1a;border:1px solid #1a2a3a;border-left:3px solid var(--energia);padding:14px 18px;margin-bottom:14px;font-size:.85rem;color:var(--text-dim);line-height:1.7;}
+.info-box strong{color:var(--energia);font-family:"Cinzel",serif;font-size:.7rem;letter-spacing:.1em;display:block;margin-bottom:5px;}
+.warn-box{background:#1a0a0a;border:1px solid #3a1a1a;border-left:3px solid #cc4444;padding:14px 18px;margin-bottom:14px;font-size:.85rem;color:#aa6666;line-height:1.7;}
+.warn-box strong{color:#dd4444;font-family:"Cinzel",serif;font-size:.7rem;letter-spacing:.1em;display:block;margin-bottom:5px;}
+.grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:14px;}
+.nav-buttons{display:flex;justify-content:space-between;margin-top:32px;gap:12px;flex-wrap:wrap;}
+.nav-btn{font-family:"Cinzel",serif;font-size:.7rem;letter-spacing:.12em;padding:10px 20px;background:var(--surface);border:1px solid var(--border);color:var(--text-dim);cursor:pointer;transition:all .2s;border-radius:2px;}
+.nav-btn:hover{border-color:var(--gold);color:var(--gold);}
+.nav-btn.primary{background:var(--gold-dim);border-color:var(--gold);color:var(--gold);}
+.nav-btn:disabled{opacity:.3;cursor:default;pointer-events:none;}
+/* Atributos */
+.attr-input-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:14px;}
+.attr-input-card{background:var(--surface2);border:1px solid var(--border);padding:14px;border-radius:2px;}
+.attr-input-label{font-family:"Cinzel",serif;font-size:.72rem;letter-spacing:.1em;color:var(--gold);margin-bottom:8px;display:block;}
+.attr-input{width:100%;background:#0a0a15;border:1px solid var(--border);color:var(--text);font-family:"IM Fell English",serif;font-size:1rem;padding:8px;text-align:center;border-radius:2px;}
+.attr-input:focus{outline:none;border-color:var(--gold);}
+.attr-mod{text-align:center;font-family:"Cinzel",serif;font-size:.8rem;color:var(--text-dim);margin-top:4px;}
+.attr-mod span{color:var(--gold);}
+.attr-grid-info{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:14px;}
+.attr-card-info{background:var(--surface2);border:1px solid var(--border);padding:12px;border-radius:2px;}
+.attr-name-info{font-family:"Cinzel",serif;font-size:.75rem;letter-spacing:.1em;color:var(--gold);margin-bottom:4px;}
+.attr-desc-info{font-size:.78rem;color:var(--text-dim);line-height:1.5;}
+/* Ocupação */
+.search-box{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);font-family:"IM Fell English",serif;font-size:.95rem;padding:12px 16px;border-radius:2px;margin-bottom:14px;}
+.search-box:focus{outline:none;border-color:var(--gold);}
+.ocup-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin-bottom:14px;max-height:300px;overflow-y:auto;}
+.ocup-btn{background:var(--surface2);border:1px solid var(--border);color:var(--text-dim);font-family:"Cinzel",serif;font-size:.62rem;letter-spacing:.06em;padding:10px 12px;text-align:left;cursor:pointer;border-radius:2px;transition:all .15s;}
+.ocup-btn:hover,.ocup-btn.selected{border-color:var(--gold);color:var(--gold);}
+.ocup-btn.selected{background:#1a1400;}
+.ocup-detail{display:none;background:var(--surface);border:1px solid var(--gold);border-radius:2px;padding:18px;margin-bottom:14px;}
+.ocup-detail.visible{display:block;}
+.ocup-detail-title{font-family:"Cinzel",serif;font-size:1rem;color:var(--gold);margin-bottom:10px;letter-spacing:.1em;}
+.pericias-list{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
+.pericia-chip{background:var(--surface2);border:1px solid var(--border);color:var(--text-dim);font-family:"Cinzel",serif;font-size:.62rem;letter-spacing:.06em;padding:5px 12px;border-radius:1px;cursor:pointer;transition:all .15s;}
+.pericia-chip:hover{border-color:var(--gold);color:var(--gold);}
+.pericia-chip.selected-vantagem{border-color:#22aa55;background:#0a1f0a;color:#22aa55;}
+.pericia-chip.selected-aprendida{border-color:#c8a96e;background:#1a1400;color:#c8a96e;}
+/* Perícias */
+.pool-section{background:var(--surface2);border:1px solid var(--border);border-radius:2px;padding:16px;margin-bottom:12px;}
+.pool-attr{font-family:"Cinzel",serif;font-size:.75rem;letter-spacing:.1em;color:var(--gold);margin-bottom:8px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px;}
+.pool-chips{display:flex;flex-wrap:wrap;gap:5px;}
+.pool-chip{font-family:"Cinzel",serif;font-size:.6rem;letter-spacing:.05em;padding:4px 10px;border-radius:1px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:4px;}
+.pool-chip.p0{background:var(--surface);border:1px solid var(--border);color:var(--text-dim);}
+.pool-chip.p1,.pool-chip.p2,.pool-chip.p3{background:#0a1508;border:1px solid #22aa5580;color:#22aa55;}
+.pool-chip-pts{background:#22aa5530;border-radius:50%;width:14px;height:14px;display:flex;align-items:center;justify-content:center;font-size:.55rem;}
+/* Classes */
+.classe-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:14px;}
+.classe-card{background:var(--surface2);border:2px solid var(--border);border-radius:2px;padding:16px;cursor:pointer;transition:all .2s;}
+.classe-card:hover,.classe-card.selected{border-color:var(--gold);background:#1a1400;}
+.classe-card-name{font-family:"Cinzel",serif;font-size:.9rem;letter-spacing:.12em;margin-bottom:8px;}
+.classe-card-rule{font-size:.8rem;color:var(--text-dim);line-height:1.6;padding:4px 0;border-bottom:1px solid #1a1a2a;}
+.classe-card-rule:last-child{border-bottom:none;}
+.classe-card-rule strong{color:var(--text);}
+/* Resistências */
+.pontos-bar{display:flex;align-items:center;gap:12px;background:var(--surface2);border:1px solid var(--border);padding:12px 16px;border-radius:2px;margin-bottom:14px;flex-wrap:wrap;}
+.pontos-label{font-family:"Cinzel",serif;font-size:.7rem;letter-spacing:.1em;color:var(--text-dim);}
+.pontos-valor{font-family:"Cinzel Decorative",serif;font-size:1.4rem;color:var(--gold);}
+.mode-btns{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.mode-btn{font-family:"Cinzel",serif;font-size:.62rem;letter-spacing:.08em;padding:7px 14px;border:1px solid var(--border);background:var(--surface2);color:var(--text-dim);cursor:pointer;border-radius:2px;transition:all .15s;}
+.mode-btn:hover{border-color:var(--gold);color:var(--gold);}
+.mode-btn.active{border-color:var(--gold);background:#1a1400;color:var(--gold);}
+.resist-grid{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 16px;}
+.resist-chip{background:var(--surface2);border:1px solid var(--border);color:var(--text-dim);font-family:"Cinzel",serif;font-size:.62rem;letter-spacing:.06em;padding:5px 12px;border-radius:1px;cursor:pointer;transition:all .15s;}
+.resist-chip:hover{border-color:var(--gold);color:var(--gold);}
+.resist-chip.sel-r{border-color:#22aa55;background:#0a1f0a;color:#22aa55;}
+.resist-chip.sel-ic{border-color:#8a8acc;background:#0f0f1a;color:#8a8acc;}
+.resist-chip.sel-id{border-color:#cc4444;background:#1f0a0a;color:#cc4444;}
+.tag-list{display:flex;flex-wrap:wrap;gap:4px;}
+.tag-r{font-family:"Cinzel",serif;font-size:.55rem;padding:2px 7px;border-radius:1px;background:#0a1f0a;border:1px solid #22aa5550;color:#22aa55;}
+.tag-ic{font-family:"Cinzel",serif;font-size:.55rem;padding:2px 7px;border-radius:1px;background:#0f0f1a;border:1px solid #8a8acc50;color:#8a8acc;}
+.tag-id{font-family:"Cinzel",serif;font-size:.55rem;padding:2px 7px;border-radius:1px;background:#1f0a0a;border:1px solid #cc444450;color:#cc4444;}
+/* Sumário */
+.summary-section{background:var(--surface2);border:1px solid var(--border);border-radius:2px;padding:18px;margin-bottom:14px;}
+.summary-title{font-family:"Cinzel",serif;font-size:.75rem;letter-spacing:.15em;color:var(--gold);margin-bottom:10px;border-bottom:1px solid var(--border);padding-bottom:8px;}
+.summary-row{display:flex;justify-content:space-between;align-items:flex-start;padding:4px 0;border-bottom:1px solid #1a1a2a;font-size:.82rem;gap:8px;}
+.summary-row:last-child{border-bottom:none;}
+.summary-key{color:var(--text-dim);flex-shrink:0;}
+.summary-val{color:var(--text);font-family:"Cinzel",serif;font-size:.75rem;letter-spacing:.06em;text-align:right;word-break:break-word;max-width:60%;}
+/* Modal */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:9999;align-items:center;justify-content:center;}
+.modal.open{display:flex;}
+.modal-box{background:var(--surface);border:1px solid #cc4444;padding:28px;max-width:340px;width:90%;border-radius:2px;text-align:center;}
+/* Toast */
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--surface);font-family:"Cinzel",serif;font-size:.7rem;letter-spacing:.1em;padding:10px 20px;border-radius:2px;z-index:9998;transition:opacity .3s;pointer-events:none;}
+/* Fichas card */
+.ficha-card{background:var(--surface);border:1px solid var(--border);border-radius:2px;padding:16px;margin-bottom:10px;}
+.ficha-nome{font-family:"Cinzel",serif;font-size:.95rem;color:var(--gold);letter-spacing:.08em;margin-bottom:3px;}
+.ficha-sub{font-family:"Cinzel",serif;font-size:.6rem;color:var(--text-dim);letter-spacing:.1em;margin-bottom:6px;}
+.ficha-stats{display:flex;gap:12px;font-size:.78rem;color:var(--text-dim);}
+.ficha-actions{display:flex;flex-direction:column;gap:6px;flex-shrink:0;}
+/* Proficiente bonus */
+.prof-bonus-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap;}
+.prof-bonus-label{font-family:"Cinzel",serif;font-size:.68rem;letter-spacing:.08em;color:var(--gold);min-width:80px;}
+.prof-attr-select{background:#0a0a15;border:1px solid var(--gold);color:var(--gold);font-family:"Cinzel",serif;font-size:.65rem;padding:6px 10px;border-radius:2px;cursor:pointer;flex:1;min-width:120px;}
+/* Mobile */
+@media(max-width:480px){
+  .steps-nav{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;}
+  .step-tab{padding:10px 10px;font-size:.55rem;}
+  .header img{width:70px;height:70px;}
+  .nav-buttons{gap:8px;}
+  .nav-btn{font-size:.65rem;padding:8px 14px;}
+}
+@media print{
+  body{background:#fff!important;}
+  body::before,.steps-nav,.nav-buttons,.mode-btns,.pontos-bar{display:none!important;}
+  .section{display:block!important;}
+  .header{background:#fff!important;padding:16px;}
+  .header h1{color:var(--gold)!important;text-shadow:none!important;}
+  .card,.summary-section,.pool-section,.ocup-detail,.info-box,.warn-box{background:#f9f9f9!important;border-color:#ccc!important;break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <p class="header-eyebrow">GUIA DO JOGADOR</p>
+  <h1>TRIAKORVO</h1>
+  <h2>Criação de Personagem — Temporada III</h2>
+</div>
+
+<nav class="steps-nav" id="nav-tabs">
+  <button class="step-tab active" data-step="0"><span class="step-num">1</span> CONCEITO</button>
+  <button class="step-tab" data-step="1"><span class="step-num">2</span> CLASSE</button>
+  <button class="step-tab" data-step="2"><span class="step-num">3</span> ATRIBUTOS</button>
+  <button class="step-tab" data-step="3"><span class="step-num">4</span> OCUPAÇÃO</button>
+  <button class="step-tab" data-step="4"><span class="step-num">5</span> PERÍCIAS</button>
+  <button class="step-tab" data-step="5"><span class="step-num">6</span> RESISTÊNCIAS</button>
+  <button class="step-tab" data-step="6"><span class="step-num">7</span> VIDA & SAN.</button>
+  <button class="step-tab" data-step="7"><span class="step-num">8</span> SUMÁRIO</button>
+  <button class="step-tab" data-step="8" style="border-left:1px solid var(--border);color:#22aa55"><span class="step-num" style="background:#0a1f0a;color:#22aa55">✦</span> FICHAS</button>
+</nav>
+
+<div class="main">
+
+<!-- S0: CONCEITO -->
+<section class="section active" id="s0">
+  <div class="step-header">
+    <div class="step-badge">1</div>
+    <div class="step-info"><h3>CONCEITO DO PERSONAGEM</h3><p>Antes de qualquer número, pense em quem é o seu personagem</p></div>
+  </div>
+  <p class="section-subtitle">O Triakorvo se passa no subterrâneo de Kogrask — cidades com regras, hierarquias e máfias.</p>
+  <div class="card">
+    <p class="card-title">NOME DO PERSONAGEM</p>
+    <input type="text" id="inp-nome" placeholder="Nome do personagem..." class="search-box" style="margin-bottom:0">
+  </div>
+  <div class="card">
+    <p class="card-title">RAÇA</p>
+    <input type="text" id="inp-raca" placeholder="Humano, Elfo, Anão, Orc..." class="search-box" style="margin-bottom:0">
+  </div>
+  <div class="card">
+    <p class="card-title">TENDÊNCIA</p>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px" id="tendencia-opts">
+      <button class="resist-chip" data-tend="Leal e Bom">Leal e Bom</button>
+      <button class="resist-chip" data-tend="Neutro e Bom">Neutro e Bom</button>
+      <button class="resist-chip" data-tend="Caótico e Bom">Caótico e Bom</button>
+      <button class="resist-chip" data-tend="Leal e Neutro">Leal e Neutro</button>
+      <button class="resist-chip" data-tend="Neutro">Neutro</button>
+      <button class="resist-chip" data-tend="Caótico e Neutro">Caótico e Neutro</button>
+      <button class="resist-chip" data-tend="Leal e Mau">Leal e Mau</button>
+      <button class="resist-chip" data-tend="Neutro e Mau">Neutro e Mau</button>
+      <button class="resist-chip" data-tend="Caótico e Mau">Caótico e Mau</button>
+    </div>
+  </div>
+  <div class="card"><p class="card-title">IDEAIS</p><textarea id="inp-ideais" placeholder="O que você acredita..." style="width:100%;background:#0a0a15;border:1px solid var(--border);color:var(--text);font-family:'IM Fell English',serif;font-size:.88rem;padding:10px;border-radius:2px;resize:vertical;min-height:60px"></textarea></div>
+  <div class="card"><p class="card-title">LIGAÇÕES</p><textarea id="inp-ligacoes" placeholder="Quem ou o que importa pra você..." style="width:100%;background:#0a0a15;border:1px solid var(--border);color:var(--text);font-family:'IM Fell English',serif;font-size:.88rem;padding:10px;border-radius:2px;resize:vertical;min-height:60px"></textarea></div>
+  <div class="card"><p class="card-title">DEFEITOS</p><textarea id="inp-defeitos" placeholder="O que te atrapalha..." style="width:100%;background:#0a0a15;border:1px solid var(--border);color:var(--text);font-family:'IM Fell English',serif;font-size:.88rem;padding:10px;border-radius:2px;resize:vertical;min-height:60px"></textarea></div>
+  <div class="nav-buttons"><button class="nav-btn" disabled>← ANTERIOR</button><button class="nav-btn primary" data-goto="1">PRÓXIMO →</button></div>
+</section>
+
+<!-- S1: CLASSE & NÍVEL -->
+<section class="section" id="s1">
+  <div class="step-header"><div class="step-badge">2</div><div class="step-info"><h3>CLASSE & NÍVEL</h3><p>Escolha o nível e distribua entre as classes</p></div></div>
+
+  <div class="card">
+    <p class="card-title">NÍVEL DO PERSONAGEM</p>
+    <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:8px">
+        <button class="nav-btn" id="btn-nivel-menos" style="padding:6px 14px;font-size:1rem">−</button>
+        <div style="text-align:center">
+          <div style="font-family:'Cinzel Decorative',serif;font-size:2rem;color:var(--gold);line-height:1" id="nivel-display">1</div>
+          <div style="font-family:'Cinzel',serif;font-size:.6rem;color:var(--text-dim);letter-spacing:.1em">NÍVEL</div>
+        </div>
+        <button class="nav-btn" id="btn-nivel-mais" style="padding:6px 14px;font-size:1rem">+</button>
+      </div>
+      <div style="flex:1;min-width:180px">
+        <div style="font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:.1em;color:var(--text-dim);margin-bottom:4px">NÍVEIS RESTANTES PARA DISTRIBUIR</div>
+        <div style="font-family:'Cinzel Decorative',serif;font-size:1.4rem;color:var(--gold)" id="niveis-restantes-display">1</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-bottom:14px">
+
+    <!-- COMBATENTE -->
+    <div class="card" style="border-left-color:#cc4444">
+      <p class="card-title" style="color:#cc4444">⚔ COMBATENTE</p>
+      <p style="font-size:.8rem;color:var(--text-dim);margin-bottom:12px">PV: +1/4 Con por nível · Estamina: +mod For por nível<br><em style="font-size:.75rem">Estamina base: For + mod For</em></p>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <button class="nav-btn classe-menos" data-c="combatente" style="padding:5px 12px;font-size:1rem;border-color:#cc4444;color:#cc4444">−</button>
+        <div style="text-align:center;min-width:32px">
+          <div style="font-family:'Cinzel Decorative',serif;font-size:1.6rem;color:#cc4444" id="lvl-combatente">0</div>
+          <div style="font-family:'Cinzel',serif;font-size:.55rem;color:var(--text-dim)">níveis</div>
+        </div>
+        <button class="nav-btn classe-mais" data-c="combatente" style="padding:5px 12px;font-size:1rem;border-color:#cc4444;color:#cc4444">+</button>
+      </div>
+      <div style="font-family:'Cinzel',serif;font-size:.7rem;color:#cc4444" id="preview-combatente">PV: — · Estamina: —</div>
+    </div>
+
+    <!-- CONJURADOR -->
+    <div class="card" style="border-left-color:var(--energia)">
+      <p class="card-title" style="color:var(--energia)">✦ CONJURADOR</p>
+      <p style="font-size:.8rem;color:var(--text-dim);margin-bottom:8px">Mana: +mod Int por nível<br><em style="font-size:.75rem">Mana base: Int + mod Int</em></p>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <button class="nav-btn classe-menos" data-c="conjurador" style="padding:5px 12px;font-size:1rem;border-color:var(--energia);color:var(--energia)">−</button>
+        <div style="text-align:center;min-width:32px">
+          <div style="font-family:'Cinzel Decorative',serif;font-size:1.6rem;color:var(--energia)" id="lvl-conjurador">0</div>
+          <div style="font-family:'Cinzel',serif;font-size:.55rem;color:var(--text-dim)">níveis</div>
+        </div>
+        <button class="nav-btn classe-mais" data-c="conjurador" style="padding:5px 12px;font-size:1rem;border-color:var(--energia);color:var(--energia)">+</button>
+      </div>
+      <div style="font-family:'Cinzel',serif;font-size:.7rem;color:var(--energia)" id="preview-conjurador">Mana: —</div>
+    </div>
+
+    <!-- PROFICIENTE -->
+    <div class="card" style="border-left-color:var(--gold)">
+      <p class="card-title" style="color:var(--gold)">◈ PROFICIENTE</p>
+      <p style="font-size:.8rem;color:var(--text-dim);margin-bottom:8px">+1 em um atributo por nível<br><em style="font-size:.75rem">Distribua no passo de atributos</em></p>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <button class="nav-btn classe-menos" data-c="proficiente" style="padding:5px 12px;font-size:1rem;border-color:var(--gold);color:var(--gold)">−</button>
+        <div style="text-align:center;min-width:32px">
+          <div style="font-family:'Cinzel Decorative',serif;font-size:1.6rem;color:var(--gold)" id="lvl-proficiente">0</div>
+          <div style="font-family:'Cinzel',serif;font-size:.55rem;color:var(--text-dim)">níveis</div>
+        </div>
+        <button class="nav-btn classe-mais" data-c="proficiente" style="padding:5px 12px;font-size:1rem;border-color:var(--gold);color:var(--gold)">+</button>
+      </div>
+      <div style="font-family:'Cinzel',serif;font-size:.7rem;color:var(--gold)" id="preview-proficiente">+0 pontos de atributo</div>
+    </div>
+
+  </div>
+
+  <div class="info-box" id="classe-totais-info">
+    <strong>📊 TOTAIS DO NÍVEL</strong>
+    <span id="classe-totais-text">Distribua os níveis entre as classes acima.</span>
+  </div>
+
+  <div id="classe-aviso"></div>
+  <div class="nav-buttons"><button class="nav-btn" data-goto="0">← ANTERIOR</button><button class="nav-btn primary" id="btn-classe-next" data-goto="2">PRÓXIMO →</button></div>
+</section>
+
+<!-- S2: ATRIBUTOS -->
+<section class="section" id="s2">
+  <div class="step-header"><div class="step-badge">3</div><div class="step-info"><h3>ATRIBUTOS</h3><p>Os seis valores base + bônus de Proficiente</p></div></div>
+  <div class="info-box"><strong>📋 COMO DISTRIBUIR</strong>Insira os valores base. Se você tem níveis de Proficiente, distribua os bônus de +1 nos atributos abaixo.</div>
+  <div id="proficiente-bonus-section"></div>
+  <div class="attr-input-grid" id="attr-inputs"></div>
+  <div class="attr-grid-info">
+    <div class="attr-card-info"><div class="attr-name-info">FORÇA</div><div class="attr-desc-info">Poder físico · base da Estamina</div></div>
+    <div class="attr-card-info"><div class="attr-name-info">DESTREZA</div><div class="attr-desc-info">Agilidade, precisão, iniciativa</div></div>
+    <div class="attr-card-info"><div class="attr-name-info">CONSTITUIÇÃO</div><div class="attr-desc-info">Resistência · base do PV</div></div>
+    <div class="attr-card-info"><div class="attr-name-info">INTELIGÊNCIA</div><div class="attr-desc-info">Raciocínio · base do Mana</div></div>
+    <div class="attr-card-info"><div class="attr-name-info">SABEDORIA</div><div class="attr-desc-info">Percepção · base da Sanidade</div></div>
+    <div class="attr-card-info"><div class="attr-name-info">CARISMA</div><div class="attr-desc-info">Influência, persuasão</div></div>
+  </div>
+  <div class="nav-buttons"><button class="nav-btn" data-goto="2">← ANTERIOR</button><button class="nav-btn primary" data-goto="4">PRÓXIMO →</button></div>
+</section>
+
+<!-- S4: OCUPAÇÃO -->
+<section class="section" id="s3">
+  <div class="step-header"><div class="step-badge">3</div><div class="step-info"><h3>OCUPAÇÃO</h3><p>Garante vantagem em 1 perícia da profissão</p></div></div>
+  <div class="info-box"><strong>📋 COMO FUNCIONA</strong>Escolha uma ocupação e selecione 1 perícia para ter vantagem permanente (2d20, fica com o maior).</div>
+  <input type="text" id="ocup-search" class="search-box" placeholder="Buscar ocupação...">
+  <div class="ocup-grid" id="ocup-grid"></div>
+  <div class="ocup-detail" id="ocup-detail">
+    <div class="ocup-detail-title" id="ocup-detail-name"></div>
+    <p style="font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.1em;color:var(--gold);margin-bottom:8px" id="ocup-legend">ESCOLHA 1 COM VANTAGEM (★) E ATÉ 2 APRENDIDAS (+1):</p>
+    <div class="pericias-list" id="ocup-pericias-list"></div>
+    <div class="card blue" style="margin-top:10px;margin-bottom:0"><p class="card-title">CRÉDITO</p><p id="ocup-credito"></p></div>
+  </div>
+  <div class="nav-buttons"><button class="nav-btn" data-goto="1">← ANTERIOR</button><button class="nav-btn primary" data-goto="3">PRÓXIMO →</button></div>
+</section>
+
+<!-- S4: PERÍCIAS -->
+<section class="section" id="s4">
+  <div class="step-header"><div class="step-badge">4</div><div class="step-info"><h3>PERÍCIAS</h3><p>Distribua pontos do pool de cada atributo</p></div></div>
+  <div class="info-box"><strong>📋 COMO FUNCIONA</strong>Cada atributo gera um pool igual ao seu modificador. <strong>Clique esquerdo</strong> para adicionar ponto (pode acumular vários na mesma perícia). <strong>Clique direito</strong> para remover. O total soma direto no d20.</div>
+  <div id="pericias-pools"></div>
+  <div class="nav-buttons"><button class="nav-btn" data-goto="2">← ANTERIOR</button><button class="nav-btn primary" data-goto="4">PRÓXIMO →</button></div>
+</section>
+
+
+
+<!-- S5: RESISTÊNCIAS -->
+<section class="section" id="s5">
+  <div class="step-header"><div class="step-badge">6</div><div class="step-info"><h3>RESISTÊNCIAS E IMUNIDADES</h3><p>Distribua 10 pontos</p></div></div>
+  <div class="pontos-bar">
+    <span class="pontos-label">PONTOS RESTANTES</span>
+    <span class="pontos-valor" id="pontos-restantes">10</span>
+    <span style="font-family:'Cinzel',serif;font-size:.7rem;color:var(--text-dim)">/ 10</span>
+  </div>
+  <div class="mode-btns">
+    <button class="mode-btn active" data-mode="r">RESISTÊNCIA (1pt)</button>
+    <button class="mode-btn" data-mode="ic">IMUN. CONDIÇÃO (2pt)</button>
+    <button class="mode-btn" data-mode="id">IMUN. DANO (2pt)</button>
+  </div>
+  <div class="card green"><p class="card-title">CLIQUE PARA SELECIONAR</p><div class="resist-grid" id="resist-chips"></div></div>
+  <div class="card"><p class="card-title">SELECIONADOS</p><div id="resist-selected" style="font-size:.82rem;color:var(--text-dim);line-height:1.8">Nenhum selecionado ainda.</div></div>
+  <div class="nav-buttons"><button class="nav-btn" data-goto="4">← ANTERIOR</button><button class="nav-btn primary" data-goto="6">PRÓXIMO →</button></div>
+</section>
+
+<!-- S6: VIDA & SANIDADE -->
+<section class="section" id="s6">
+  <div class="step-header"><div class="step-badge">7</div><div class="step-info"><h3>VIDA E SANIDADE</h3><p>Calculadas com base nos seus atributos</p></div></div>
+  <div class="grid-2">
+    <div class="card red"><p class="card-title">PONTOS DE VIDA</p><p>Nível 1: Con + mod Con</p><p>Por nível: mod Con (mín. 1)</p><p>Combatente: +1/4 Con por nível</p><p style="margin-top:10px;font-family:'Cinzel',serif;font-size:1.2rem;color:#cc4444" id="pv-calculado">— PV</p></div>
+    <div class="card" style="--card-color:#8a8acc"><p class="card-title" style="color:#8a8acc">SANIDADE</p><p>Nível 1: Sab + mod Sab</p><p>Por nível: mod Sab (mín. 1)</p><p style="margin-top:10px;font-family:'Cinzel',serif;font-size:1.2rem;color:#8a8acc" id="san-calculado">— SAN</p></div>
+  </div>
+  <div class="card"><p class="card-title">INICIATIVA</p><p>No início do combate: <strong style="color:var(--gold)">1d20 + mod Destreza</strong></p><p id="iniciativa-val" style="margin-top:6px;font-family:'Cinzel',serif;font-size:.9rem;color:var(--gold)"></p></div>
+  <div id="extra-recursos" style="margin-top:8px"></div>
+  <div class="warn-box"><strong>⚠ VIDA BAIXA É INTENCIONAL</strong>O combate tem peso real. Escolha suas batalhas com cuidado.</div>
+  <div class="nav-buttons"><button class="nav-btn" data-goto="5">← ANTERIOR</button><button class="nav-btn primary" data-goto="7">SUMÁRIO →</button></div>
+</section>
+
+<!-- S7: SUMÁRIO -->
+<section class="section" id="s7">
+  <div class="step-header"><div class="step-badge">8</div><div class="step-info"><h3>SUMÁRIO DO PERSONAGEM</h3><p>Visão geral da sua ficha</p></div></div>
+  <div id="summary-content"></div>
+  <div class="info-box"><strong>✦ PRONTO PARA JOGAR</strong>Fundamentos, catarse e habilidades especiais virão durante o jogo. Foque em quem é o seu personagem.</div>
+  <div class="nav-buttons">
+    <button class="nav-btn" data-goto="6">← ANTERIOR</button>
+    <button class="nav-btn" id="btn-salvar" style="border-color:#22aa55;color:#22aa55;background:#0a1f0a">💾 SALVAR</button>
+    <button class="nav-btn" id="btn-exportar" style="border-color:#c8a96e;color:#c8a96e">⬇ EXPORTAR JSON</button>
+    <button class="nav-btn primary" id="btn-gerar">✦ GERAR FICHA</button>
+  </div>
+</section>
+
+<!-- S8: FICHAS -->
+<section class="section" id="s8">
+  <div class="step-header"><div class="step-badge" style="border-color:#22aa55;color:#22aa55">✦</div><div class="step-info"><h3>FICHAS SALVAS</h3><p>Todas as fichas criadas neste dispositivo</p></div></div>
+  <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+    <button class="nav-btn" id="btn-nova-ficha" style="border-color:#22aa55;background:#0a1f0a;color:#22aa55">+ NOVA FICHA</button>
+    <button class="nav-btn" id="btn-importar" style="border-color:#c8a96e;color:#c8a96e">📂 IMPORTAR JSON</button>
+    <button class="nav-btn" id="btn-atualizar">↺ ATUALIZAR</button>
+  </div>
+  <input type="file" id="input-importar" accept=".json" style="display:none">
+  <div id="fichas-list"></div>
+</section>
+
+</div><!-- /.main -->
+
+<!-- Modal delete -->
+<div class="modal" id="delete-modal">
+  <div class="modal-box">
+    <p style="font-family:'Cinzel',serif;font-size:.8rem;letter-spacing:.1em;color:#cc4444;margin-bottom:8px">DELETAR FICHA</p>
+    <p style="font-size:.88rem;color:var(--text-dim);margin-bottom:20px">Tem certeza? Esta ação não pode ser desfeita.</p>
+    <div style="display:flex;gap:10px;justify-content:center">
+      <button class="nav-btn" id="btn-cancel-delete">CANCELAR</button>
+      <button class="nav-btn" id="btn-confirm-delete" style="border-color:#cc4444;color:#cc4444;background:#1f0a0a">DELETAR</button>
+    </div>
+  </div>
+</div>
+
+<script>
+'use strict';
+document.addEventListener('DOMContentLoaded', () => {
+
+// ─── DADOS ─────────────────────────────────────────────────────────────────
+
+const OCUPACOES = {"Acrobata":{"credito":"9–20","pericias":["Arremessar","Encontrar","Escalar","Esquivar","Natação","Saltar"]},"Agente Federal":{"credito":"20–40","pericias":["Armas de Fogo","Direito","Dirigir","Encontrar","Furtividade","Lutar","Persuasão"]},"Agente Funerário":{"credito":"20–40","pericias":["Biologia","Química","Contabilidade","Dirigir","História","Ocultismo","Psicologia"]},"Agricultor":{"credito":"9–30","pericias":["Arte/Ofício","Consertos Mecânicos","Dirigir","Mundo Natural","Operar Maquinário","Rastrear"]},"Alienista":{"credito":"10–60","pericias":["Biologia","Química","Direito","Escutar","Medicina","Outra Língua","Psicanálise","Psicologia"]},"Alpinista":{"credito":"30–60","pericias":["Escalar","Escutar","Navegação","Outra Língua","Primeiros Socorros","Rastrear","Saltar","Sobrevivência"]},"Andarilho":{"credito":"0–5","pericias":["Escalar","Escutar","Furtividade","Navegação","Saltar","Charme","Intimidação","Lábia"]},"Animador":{"credito":"9–70","pericias":["Arte/Ofício","Disfarce","Escutar","Psicologia","Charme","Intimidação"]},"Antiquário":{"credito":"30–70","pericias":["Arte/Ofício","Avaliação","Encontrar","História","Outra Língua","Usar Bibliotecas"]},"Apostador":{"credito":"8–50","pericias":["Arte/Ofício","Contabilidade","Encontrar","Escutar","Prestidigitação","Psicologia","Charme","Intimidação"]},"Arqueólogo":{"credito":"10–40","pericias":["Arqueologia","Avaliação","Consertos Mecânicos","Encontrar","História","Outra Língua","Usar Bibliotecas"]},"Arquiteto":{"credito":"30–70","pericias":["Arte/Ofício","Ciência","Contabilidade","Direito","Língua Nativa","Persuasão","Psicologia"]},"Artesão":{"credito":"10–40","pericias":["Arte/Ofício","Consertos Mecânicos","Contabilidade","Encontrar","Mundo Natural"]},"Artista":{"credito":"9–50","pericias":["Arte/Ofício","Encontrar","Outra Língua","Psicologia","História","Mundo Natural"]},"Assistente de Sanatório":{"credito":"8–20","pericias":["Escutar","Esquivar","Furtividade","Lutar","Primeiros Socorros","Psicologia","Charme","Intimidação"]},"Atleta":{"credito":"9–70","pericias":["Arremessar","Cavalgar","Escalar","Lutar","Natação","Saltar"]},"Ator (Teatro)":{"credito":"9–40","pericias":["Arte/Ofício","Disfarce","Lutar","História","Psicologia","Charme","Intimidação"]},"Ator (Cinema)":{"credito":"20–90","pericias":["Arte/Ofício","Dirigir","Disfarce","Psicologia","Charme","Intimidação"]},"Auxiliar de Laboratório":{"credito":"10–30","pericias":["Ciência","Consertos Elétricos","Encontrar","Outra Língua","Usar Bibliotecas"]},"Bartender":{"credito":"8–25","pericias":["Contabilidade","Encontrar","Escutar","Lutar","Psicologia","Charme","Intimidação"]},"Bibliotecário":{"credito":"9–35","pericias":["Contabilidade","Língua Nativa","Outra Língua","Usar Bibliotecas"]},"Bombeiro":{"credito":"9–30","pericias":["Arremessar","Consertos Mecânicos","Dirigir","Escalar","Esquivar","Operar Maquinário","Primeiros Socorros","Saltar"]},"Caçador de Grandes Presas":{"credito":"20–50","pericias":["Armas de Fogo","Biologia","Furtividade","Mundo Natural","Navegação","Rastrear","Sobrevivência"]},"Caçador de Recompensas":{"credito":"9–30","pericias":["Direito","Dirigir","Furtividade","Psicologia","Rastrear","Lutar","Armas de Fogo"]},"Cavalheiro/Dama":{"credito":"40–90","pericias":["Armas de Fogo","Arte/Ofício","Cavalgar","História","Navegação","Charme","Intimidação"]},"Cientista":{"credito":"9–50","pericias":["Ciência","Encontrar","Língua Nativa","Outra Língua","Usar Bibliotecas"]},"Cirurgião Forense":{"credito":"40–60","pericias":["Biologia","Farmácia","Encontrar","Medicina","Outra Língua","Persuasão","Usar Bibliotecas"]},"Clero":{"credito":"9–60","pericias":["Contabilidade","Escutar","História","Outra Língua","Psicologia","Usar Bibliotecas"]},"Contador":{"credito":"30–70","pericias":["Contabilidade","Direito","Encontrar","Escutar","Persuasão","Usar Bibliotecas"]},"Correspondente Estrangeiro":{"credito":"10–40","pericias":["Escutar","História","Língua Nativa","Outra Língua","Psicologia","Charme","Intimidação"]},"Criminoso — Assassino":{"credito":"30–60","pericias":["Armas de Fogo","Chaveiro","Consertos Elétricos","Disfarce","Furtividade","Lutar","Psicologia"]},"Criminoso — Assaltante de Banco":{"credito":"5–75","pericias":["Armas de Fogo","Chaveiro","Dirigir","Intimidação","Lutar","Operar Maquinário"]},"Criminoso — Arrombador":{"credito":"5–40","pericias":["Avaliação","Chaveiro","Encontrar","Escalar","Escutar","Furtividade","Prestidigitação"]},"Criminoso — Bandido de Rua":{"credito":"3–10","pericias":["Armas de Fogo","Arremessar","Escalar","Furtividade","Lutar","Prestidigitação","Saltar"]},"Criminoso — Capanga":{"credito":"5–30","pericias":["Armas de Fogo","Dirigir","Encontrar","Furtividade","Lutar","Psicologia","Charme","Intimidação"]},"Criminoso — Golpista":{"credito":"10–65","pericias":["Arte/Ofício","Avaliação","Escutar","Prestidigitação","Psicologia","Direito","Charme","Intimidação"]},"Criminoso — Falsificador":{"credito":"20–60","pericias":["Arte/Ofício","Avaliação","Contabilidade","Encontrar","História","Prestidigitação","Usar Bibliotecas"]},"Criminoso — Contrabandista":{"credito":"20–60","pericias":["Armas de Fogo","Encontrar","Escutar","Navegação","Prestidigitação","Psicologia","Dirigir"]},"Criminoso — Autônomo":{"credito":"5–65","pericias":["Avaliação","Encontrar","Furtividade","Psicologia","Arte/Ofício","Disfarce","Chaveiro"]},"Curador de Museu":{"credito":"0–5","pericias":["Arqueologia","Avaliação","Contabilidade","Encontrar","História","Ocultismo","Outra Língua","Usar Bibliotecas"]},"Designer":{"credito":"10–40","pericias":["Arte/Ofício","Consertos Mecânicos","Contabilidade","Encontrar","Psicologia","Usar Bibliotecas"]},"Desprogramador":{"credito":"10–30","pericias":["Dirigir","Furtividade","História","Ocultismo","Psicologia","Lutar","Armas de Fogo","Charme","Intimidação"]},"Detetive de Agência":{"credito":"20–45","pericias":["Armas de Fogo","Direito","Furtividade","Lutar","Psicologia","Rastrear","Usar Bibliotecas"]},"Detetive Particular":{"credito":"9–30","pericias":["Arte/Ofício","Direito","Disfarce","Encontrar","Psicologia","Usar Bibliotecas"]},"Diletante":{"credito":"50–99","pericias":["Armas de Fogo","Arte/Ofício","Cavalgar","Outra Língua","Charme","Intimidação"]},"Dublê":{"credito":"10–50","pericias":["Escalar","Esquivar","Lutar","Natação","Primeiros Socorros","Saltar","Cavalgar","Dirigir"]},"Editor":{"credito":"10–30","pericias":["Contabilidade","Encontrar","História","Língua Nativa","Psicologia","Charme","Intimidação"]},"Enfermeiro":{"credito":"9–30","pericias":["Biologia","Química","Encontrar","Escutar","Medicina","Primeiros Socorros","Psicologia"]},"Engenheiro":{"credito":"30–60","pericias":["Arte/Ofício","Ciência","Consertos Elétricos","Consertos Mecânicos","Operar Maquinário","Usar Bibliotecas"]},"Escritor":{"credito":"9–30","pericias":["Arte/Ofício","História","Língua Nativa","Outra Língua","Psicologia","Usar Bibliotecas","Mundo Natural","Ocultismo"]},"Espião":{"credito":"20–60","pericias":["Armas de Fogo","Escutar","Furtividade","Outra Língua","Prestidigitação","Psicologia","Disfarce"]},"Estudante/Estagiário":{"credito":"5–10","pericias":["Escutar","Língua Nativa","Outra Língua","Usar Bibliotecas"]},"Explorador":{"credito":"55–80","pericias":["Armas de Fogo","História","Mundo Natural","Navegação","Outra Língua","Saltar","Sobrevivência","Escalar"]},"Fanático":{"credito":"0–30","pericias":["Furtividade","História","Psicologia","Charme","Intimidação","Lábia"]},"Farmacêutico":{"credito":"35–75","pericias":["Farmácia","Química","Contabilidade","Outra Língua","Psicologia","Primeiros Socorros","Usar Bibliotecas"]},"Fotógrafo":{"credito":"9–30","pericias":["Arte/Ofício","Ciência","Encontrar","Furtividade","Psicologia"]},"Gângster — Chefão":{"credito":"60–95","pericias":["Armas de Fogo","Direito","Encontrar","Escutar","Lutar","Psicologia","Charme","Intimidação"]},"Gângster — Subalterno":{"credito":"9–20","pericias":["Armas de Fogo","Dirigir","Lutar","Psicologia","Charme","Intimidação"]},"Garçom/Garçonete":{"credito":"9–20","pericias":["Arte/Ofício","Contabilidade","Escutar","Esquivar","Psicologia","Charme","Intimidação"]},"Garimpeiro":{"credito":"0–10","pericias":["Geologia","Consertos Mecânicos","Encontrar","Escalar","História","Navegação","Primeiros Socorros"]},"Jornalista":{"credito":"9–30","pericias":["Arte/Ofício","Encontrar","Escutar","Furtividade","História","Língua Nativa","Psicologia"]},"Juiz":{"credito":"50–80","pericias":["Direito","Escutar","História","Intimidação","Língua Nativa","Persuasão","Psicologia","Usar Bibliotecas"]},"Jurista":{"credito":"30–80","pericias":["Contabilidade","Direito","Psicologia","Usar Bibliotecas","Charme","Intimidação","Persuasão"]},"Líder de Culto":{"credito":"30–60","pericias":["Contabilidade","Encontrar","Ocultismo","Psicologia","Charme","Intimidação"]},"Marinheiro":{"credito":"9–30","pericias":["Consertos Mecânicos","Escalar","Escutar","Lutar","Natação","Navegação","Primeiros Socorros"]},"Médico":{"credito":"30–80","pericias":["Biologia","Química","Encontrar","Medicina","Outra Língua","Psicanálise","Psicologia","Primeiros Socorros"]},"Mecânico/Operário":{"credito":"9–30","pericias":["Consertos Elétricos","Consertos Mecânicos","Dirigir","Encontrar","Operar Maquinário"]},"Missionário":{"credito":"0–30","pericias":["Arte/Ofício","História","Medicina","Mundo Natural","Outra Língua","Primeiros Socorros","Psicologia"]},"Mordomo/Valete/Aia":{"credito":"9–40","pericias":["Arte/Ofício","Contabilidade","Dirigir","Escutar","Psicologia","Charme"]},"Músico":{"credito":"9–40","pericias":["Arte/Ofício","Escutar","Psicologia","Charme","Intimidação"]},"Ocultista":{"credito":"9–65","pericias":["Antropologia","Arqueologia","Arte/Ofício","História","Língua Nativa","Ocultismo","Outra Língua","Usar Bibliotecas"]},"Oficial Militar":{"credito":"20–70","pericias":["Armas de Fogo","Arremessar","Esquivar","Lutar","Navegação","Primeiros Socorros","Psicologia"]},"Oficial de Polícia":{"credito":"9–30","pericias":["Armas de Fogo","Direito","Encontrar","Lutar","Psicologia","Charme","Intimidação"]},"Piloto":{"credito":"20–50","pericias":["Consertos Elétricos","Consertos Mecânicos","Escutar","Meteorologia","Navegação","Pilotar","Ciência"]},"Político Eleito":{"credito":"40–90","pericias":["Contabilidade","Direito","História","Língua Nativa","Psicologia","Charme","Intimidação","Persuasão"]},"Professor":{"credito":"9–30","pericias":["Usar Bibliotecas","Língua Nativa","Outra Língua","Psicologia"]},"Programador/Hacker":{"credito":"10–50","pericias":["Eletrônica","Engenharia","Ciência","Usar Computadores"]},"Psicólogo/Psicanalista":{"credito":"30–60","pericias":["Escutar","Medicina","Outra Língua","Psicanálise","Psicologia","Usar Bibliotecas","Charme"]},"Pugilista/Lutador":{"credito":"9–50","pericias":["Esquivar","Lutar","Intimidação","Psicologia","Saltar"]},"Soldado/Fuzileiro":{"credito":"9–30","pericias":["Armas de Fogo","Arremessar","Esquivar","Lutar","Primeiros Socorros","Sobrevivência"]},"Vagabundo":{"credito":"0–5","pericias":["Escalar","Escutar","Furtividade","Lutar","Navegação","Saltar","Charme"]},"Vendedor":{"credito":"9–40","pericias":["Contabilidade","Dirigir","Escutar","Psicologia","Charme","Intimidação","Persuasão"]}};
+
+const ATTR_KEYS = ['for','des','con','int','sab','car'];
+const ATTR_NAMES = {for:'Força',des:'Destreza',con:'Constituição',int:'Inteligência',sab:'Sabedoria',car:'Carisma'};
+const ATTR_ABBR  = {for:'FOR',des:'DES',con:'CON',int:'INT',sab:'SAB',car:'CAR'};
+
+const PERICIAS_ATTR = {
+  for:['Atletismo','Combate Corpo a Corpo','Intimidação'],
+  des:['Acrobacia','Arremessar','Combate Corpo a Corpo','Furtividade','Prestidigitação'],
+  con:['Atletismo'],
+  int:['Arcana','Encontrar','Sobrevivência'],
+  sab:['Adestrar Animal','Arcana','Intuição','Percepção','Sobrevivência'],
+  car:['Adestrar Animal','Atuação','Enganação','Intimidação','Persuasão']
+};
+
+const RESIST_TIPOS = ['Ácido','Contundente','Cortante','Elétrico','Energético','Gélido','Ígneo','Necrótico','Perfurante','Psíquico','Radiante','Trovejante','Venenoso'];
+const COND_TIPOS   = ['Agarrado','Amedrontado','Atordoado','Caído','Cego','Enfeitiçado','Envenenado','Impedido','Inconsciente','Paralisado','Petrificado','Surdo'];
+
+const STORAGE_KEY = 'triakorvo_fichas';
+const LOGO_SRC = document.querySelector('.header img')?.src || '';
+
+// ─── STATE ─────────────────────────────────────────────────────────────────
+
+function freshState() {
+  return {
+    _id: null, nome:'', raca:'', tendencia:'', ideais:'', ligacoes:'', defeitos:'',
+    atributos:{for:10,des:10,con:10,int:10,sab:10,car:10},
+    ocupacao:null, vantagem_pericia:null, pericias_aprendidas:[],
+    pericias_pts:{}, pericias_extra_attr:{}, classes:[],
+    nivel:1, niveis_classe:{combatente:0,conjurador:0,proficiente:0},
+    proficiente_bonus:[],
+    resistencias:[], pontos_usados:0, modo_resist:'r',
+    _savedAt:null
+  };
+}
+
+let state = freshState();
+let pendingDeleteId = null;
+
+// ─── UTILS ─────────────────────────────────────────────────────────────────
+
+const getMod = v => Math.floor((v-10)/2);
+const modStr = v => { const m=getMod(v); return (m>=0?'+':'')+m; };
+const $ = id => document.getElementById(id);
+const el = (tag,cls,html) => { const e=document.createElement(tag); if(cls)e.className=cls; if(html)e.innerHTML=html; return e; };
+
+let _toast = null;
+function showToast(msg, color='#22aa55') {
+  if(_toast){ clearTimeout(_toast._t); _toast.remove(); }
+  const t = el('div','toast');
+  t.textContent = msg;
+  t.style.border = `1px solid ${color}`;
+  t.style.color = color;
+  document.body.appendChild(t);
+  _toast = t;
+  t._t = setTimeout(()=>{ t.style.opacity='0'; setTimeout(()=>{ t.remove(); if(_toast===t)_toast=null; },300); }, 2500);
+}
+
+// ─── NAVEGAÇÃO ─────────────────────────────────────────────────────────────
+
+function showStep(n) {
+  document.querySelectorAll('.section').forEach((s,i)=>s.classList.toggle('active',i===n));
+  document.querySelectorAll('.step-tab').forEach((t,i)=>t.classList.toggle('active',i===n));
+  window.scrollTo({top:0,behavior:'smooth'});
+  const actions = [null, updateClassePreview, renderAttrInputs, renderOcupGrid, renderPericiaPools, null, calcVida, buildSummary, renderFichasList];
+  if(actions[n]) actions[n]();
+}
+
+// Nav tabs
+document.querySelectorAll('.step-tab[data-step]').forEach(btn=>{
+  btn.addEventListener('click',()=>showStep(+btn.dataset.step));
+});
+
+// Nav buttons (next/prev)
+document.querySelectorAll('.nav-btn[data-goto]').forEach(btn=>{
+  btn.addEventListener('click',()=>showStep(+btn.dataset.goto));
+});
+
+// ─── PASSO 1: CONCEITO ─────────────────────────────────────────────────────
+
+$('inp-nome').addEventListener('input', e=>{ state.nome=e.target.value; });
+$('inp-raca').addEventListener('input', e=>{ state.raca=e.target.value; });
+$('inp-ideais').addEventListener('input', e=>{ state.ideais=e.target.value; });
+$('inp-ligacoes').addEventListener('input', e=>{ state.ligacoes=e.target.value; });
+$('inp-defeitos').addEventListener('input', e=>{ state.defeitos=e.target.value; });
+
+document.querySelectorAll('#tendencia-opts .resist-chip').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('#tendencia-opts .resist-chip').forEach(b=>b.classList.remove('sel-r'));
+    btn.classList.add('sel-r');
+    state.tendencia = btn.dataset.tend;
+  });
+});
+
+// ─── PASSO 2: ATRIBUTOS ────────────────────────────────────────────────────
+
+function renderProficienteBonus() {
+  const sec = $('proficiente-bonus-section');
+  const lvlProf = state.niveis_classe?.proficiente || 0;
+  if(lvlProf === 0) { sec.innerHTML = ''; return; }
+  sec.innerHTML = `
+    <div class="card" style="border-left-color:var(--gold);margin-bottom:14px">
+      <p class="card-title" style="color:var(--gold)">◈ BÔNUS DE PROFICIENTE (+${lvlProf} pontos)</p>
+      <p style="font-size:.82rem;color:var(--text-dim);margin-bottom:12px">Distribua um +1 em um atributo por nível de Proficiente.</p>
+      ${Array.from({length:lvlProf},(_,i)=>`
+        <div class="prof-bonus-row">
+          <span class="prof-bonus-label">Nível ${i+1}</span>
+          <select class="prof-attr-select" data-idx="${i}">
+            <option value="">Escolha…</option>
+            ${ATTR_KEYS.map(k=>`<option value="${k}" ${state.proficiente_bonus[i]===k?'selected':''}>${ATTR_NAMES[k]}</option>`).join('')}
+          </select>
+          ${state.proficiente_bonus[i]?`<span style="font-family:'Cinzel',serif;font-size:.7rem;color:var(--gold)">+1 ${ATTR_NAMES[state.proficiente_bonus[i]]||''}</span>`:''}
+        </div>`).join('')}
+    </div>`;
+  sec.querySelectorAll('.prof-attr-select').forEach(sel=>{
+    sel.addEventListener('change',()=>{
+      state.proficiente_bonus[+sel.dataset.idx] = sel.value;
+      renderAttrInputs();
+    });
+  });
+}
+
+function renderAttrInputs() {
+  renderProficienteBonus();
+  $('attr-inputs').innerHTML = ATTR_KEYS.map(k=>{
+    const vBase = state.atributos[k];
+    const bonus = getProficienteBonus(k);
+    const vTotal = vBase + bonus;
+    return `<div class="attr-input-card">
+      <label class="attr-input-label">${ATTR_NAMES[k]}</label>
+      <input type="number" class="attr-input" data-attr="${k}" value="${vBase}" min="1" max="30">
+      ${bonus>0?`<div style="font-family:'Cinzel',serif;font-size:.65rem;color:var(--gold);text-align:center;margin-top:2px">+${bonus} prof → total ${vTotal}</div>`:''}
+      <div class="attr-mod" id="amod-${k}">mod: <span>${modStr(vTotal)}</span></div>
+    </div>`;
+  }).join('');
+  $('attr-inputs').querySelectorAll('.attr-input').forEach(inp=>{
+    inp.addEventListener('input',()=>{
+      const k=inp.dataset.attr, v=+inp.value||10;
+      state.atributos[k]=v;
+      const bonus=getProficienteBonus(k);
+      $('amod-'+k).innerHTML=`mod: <span>${modStr(v+bonus)}</span>`;
+    });
+  });
+}
+
+// ─── PASSO 3: OCUPAÇÃO ─────────────────────────────────────────────────────
+
+function renderOcupGrid(filter='') {
+  const f=filter.toLowerCase();
+  const grid=$('ocup-grid');
+  grid.innerHTML = Object.keys(OCUPACOES).filter(k=>k.toLowerCase().includes(f)).map(k=>{
+    const sel=state.ocupacao===k;
+    return `<button class="ocup-btn${sel?' selected':''}" data-ocup="${k}">${k}</button>`;
+  }).join('');
+  grid.querySelectorAll('.ocup-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>selectOcup(btn.dataset.ocup,btn));
+  });
+}
+
+$('ocup-search').addEventListener('input', e=>renderOcupGrid(e.target.value));
+
+function selectOcup(name, btn) {
+  // Reset só se mudou de ocupação
+  if(state.ocupacao !== name) {
+    state.vantagem_pericia = null;
+    state.pericias_aprendidas = [];
+  }
+  state.ocupacao = name;
+  document.querySelectorAll('.ocup-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  renderOcupDetail();
+}
+
+function renderOcupDetail() {
+  if(!state.ocupacao) return;
+  const o = OCUPACOES[state.ocupacao];
+  const detail = $('ocup-detail');
+  detail.className = 'ocup-detail visible';
+  $('ocup-detail-name').textContent = state.ocupacao;
+  $('ocup-credito').textContent = 'Nível de Crédito recomendado: ' + o.credito;
+
+  const vantCount = state.vantagem_pericia ? 1 : 0;
+  const aprenCount = (state.pericias_aprendidas||[]).length;
+
+  // Atualiza legenda fixa (sem empilhar)
+  $('ocup-legend').innerHTML =
+    `ESCOLHA 1 COM VANTAGEM (★) E ATÉ 2 APRENDIDAS (+1): ` +
+    `<span style="color:${vantCount?'#22aa55':'#cc4444'}">${vantCount}/1 vantagem</span> · ` +
+    `<span style="color:${aprenCount>=2?'#22aa55':'#c8a96e'}">${aprenCount}/2 aprendidas</span>`;
+
+  const pl = $('ocup-pericias-list');
+  pl.innerHTML = o.pericias.map(p => {
+    const isVant = state.vantagem_pericia === p;
+    const isApren = (state.pericias_aprendidas||[]).includes(p);
+    const cls = isVant ? 'selected-vantagem' : isApren ? 'selected-aprendida' : '';
+    const label = isVant ? p + ' ★' : isApren ? p + ' +1' : p;
+    return `<button class="pericia-chip ${cls}" data-p="${p}">${label}</button>`;
+  }).join('');
+
+  pl.querySelectorAll('.pericia-chip').forEach(chip=>{
+    chip.addEventListener('click',()=>{
+      const p = chip.dataset.p;
+      const isVant = state.vantagem_pericia === p;
+      const apren = state.pericias_aprendidas || [];
+      const isApren = apren.includes(p);
+      if(isVant) {
+        state.vantagem_pericia = null;
+      } else if(isApren) {
+        state.pericias_aprendidas = apren.filter(x=>x!==p);
+      } else if(!state.vantagem_pericia) {
+        state.vantagem_pericia = p;
+      } else if(apren.length < 2) {
+        state.pericias_aprendidas = [...apren, p];
+      } else {
+        showToast('Clique numa marcada para desmarcar primeiro.', '#c8a96e');
+        return;
+      }
+      renderOcupDetail();
+    });
+  });
+}
+
+// ─── PASSO 4: PERÍCIAS ─────────────────────────────────────────────────────
+
+// Chave única por atributo+pericia para evitar conflito entre FOR/Atletismo e CON/Atletismo
+function pKey(attr, pericia) { return attr + '::' + pericia; }
+
+function getPericiaPts(attr, pericia) {
+  return state.pericias_pts[pKey(attr, pericia)] || 0;
+}
+
+function getBonusOcupacao(pericia) {
+  // +1 se está na vantagem ou nas aprendidas
+  const isVant = state.vantagem_pericia === pericia;
+  const isApren = (state.pericias_aprendidas||[]).includes(pericia);
+  return (isVant || isApren) ? 1 : 0;
+}
+
+// Conjunto de todas as perícias no pool padrão
+const ALL_POOL_PERICIAS = new Set(Object.values(PERICIAS_ATTR).flat());
+
+// Retorna perícias da ocupação selecionadas (vantagem+aprendidas) que NÃO estão no pool padrão
+function getPericiasExtraOcup() {
+  if(!state.ocupacao) return [];
+  const selecionadas = [state.vantagem_pericia, ...(state.pericias_aprendidas||[])].filter(Boolean);
+  return [...new Set(selecionadas.filter(p => !ALL_POOL_PERICIAS.has(p)))];
+}
+
+function renderPericiaPools() {
+  const container = $('pericias-pools');
+
+  // ── Pool padrão por atributo
+  const poolHtml = ATTR_KEYS.map(k=>{
+    const atEfetivo = atributoEfetivo(k);
+    const mod = getMod(atEfetivo);
+    const pool = Math.max(0, mod);
+    const pericias = PERICIAS_ATTR[k] || [];
+    if(!pericias.length) return '';
+    const usados = pericias.reduce((s,p)=>s+getPericiaPts(k,p), 0);
+    const chips = pericias.map(p=>{
+      const pts = getPericiaPts(k, p);
+      const bonus = getBonusOcupacao(p);
+      const total = pts + bonus;
+      return `<button class="pool-chip p${Math.min(total,3)}" data-attr="${k}" data-p="${p}">
+        ${p}${bonus?` <span style="color:#22aa55;font-size:.5rem">+${bonus}ocup</span>`:''}
+        <span class="pool-chip-pts">${total}</span>
+      </button>`;
+    }).join('');
+    const bonusLabel = getProficienteBonus(k)>0?` <span style="color:var(--gold);font-size:.6rem">(+${getProficienteBonus(k)}prof)</span>`:''; 
+    return `<div class="pool-section">
+      <div class="pool-attr">
+        <span>${ATTR_NAMES[k]} (mod ${modStr(atEfetivo)})${bonusLabel}</span>
+        <span>Usados: ${usados}/${pool}</span>
+      </div>
+      <div class="pool-chips">${chips}</div>
+    </div>`;
+  }).join('');
+
+  // ── Seção extra: perícias da ocupação fora do pool padrão
+  const extras = getPericiasExtraOcup();
+  if(!state.pericias_extra_attr) state.pericias_extra_attr = {};
+  const extraHtml = extras.length ? `
+    <div class="pool-section" style="border-color:#c8a96e55">
+      <div class="pool-attr" style="color:#c8a96e">
+        <span>PERÍCIAS DA OCUPAÇÃO</span>
+        <span style="font-size:.65rem;color:var(--text-dim)">escolha o atributo base</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        ${extras.map(p => {
+          const chosenAttr = state.pericias_extra_attr[p] || '';
+          const pts = chosenAttr ? getPericiaPts(chosenAttr, p) : 0;
+          const bonus = getBonusOcupacao(p);
+          const total = pts + bonus;
+          const pool = chosenAttr ? Math.max(0, getMod(state.atributos[chosenAttr])) : 0;
+          const usados = chosenAttr
+            ? (PERICIAS_ATTR[chosenAttr]||[]).reduce((s,pp)=>s+getPericiaPts(chosenAttr,pp),0)
+              + extras.filter(ep=>ep!==p&&state.pericias_extra_attr[ep]===chosenAttr).reduce((s,ep)=>s+getPericiaPts(chosenAttr,ep),0)
+            : 0;
+          const attrOpts = ATTR_KEYS.map(k=>
+            `<option value="${k}" ${chosenAttr===k?'selected':''}>${ATTR_ABBR[k]}</option>`
+          ).join('');
+          return `<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <select class="extra-attr-sel" data-p="${p}"
+              style="background:#0a0a15;border:1px solid #c8a96e55;color:#c8a96e;font-family:'Cinzel',serif;font-size:.6rem;padding:5px 8px;border-radius:2px;cursor:pointer">
+              <option value="">Atributo…</option>${attrOpts}
+            </select>
+            <button class="pool-chip p${Math.min(total,3)} extra-pool-chip" data-p="${p}" style="${!chosenAttr?'opacity:.4;pointer-events:none':''}">
+              ${p}${bonus?` <span style="color:#22aa55;font-size:.5rem">+${bonus}ocup</span>`:''}
+              <span class="pool-chip-pts">${total}</span>
+            </button>
+            ${chosenAttr?`<span style="font-size:.65rem;color:var(--text-dim)">(pool ${chosenAttr.toUpperCase()}: ${usados}/${pool})</span>`:''}
+          </div>`;
+        }).join('')}
+      </div>
+    </div>` : '';
+
+  container.innerHTML = poolHtml + extraHtml;
+
+  // ── Listeners pool padrão
+  container.querySelectorAll('.pool-chip:not(.extra-pool-chip)').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const k = btn.dataset.attr, p = btn.dataset.p;
+      const pericias = PERICIAS_ATTR[k] || [];
+      const pool = Math.max(0, getMod(state.atributos[k]));
+      const usados = pericias.reduce((s,pp)=>s+getPericiaPts(k,pp), 0);
+      const cur = getPericiaPts(k, p);
+      if(usados < pool) {
+        state.pericias_pts[pKey(k,p)] = cur + 1;
+        renderPericiaPools();
+      } else {
+        showToast('Pool esgotado! Clique direito para remover pontos.', '#c8a96e');
+      }
+    });
+    btn.addEventListener('contextmenu', e=>{
+      e.preventDefault();
+      const k = btn.dataset.attr, p = btn.dataset.p;
+      const key = pKey(k,p), cur = getPericiaPts(k,p);
+      if(cur > 0){ state.pericias_pts[key] = cur-1; if(!state.pericias_pts[key]) delete state.pericias_pts[key]; renderPericiaPools(); }
+    });
+  });
+
+  // ── Listeners extra: select de atributo
+  container.querySelectorAll('.extra-attr-sel').forEach(sel=>{
+    sel.addEventListener('change',()=>{
+      const p = sel.dataset.p;
+      const oldAttr = state.pericias_extra_attr[p];
+      if(oldAttr) { delete state.pericias_pts[pKey(oldAttr,p)]; }
+      state.pericias_extra_attr[p] = sel.value;
+      renderPericiaPools();
+    });
+  });
+
+  // ── Listeners extra: chip de pontos
+  container.querySelectorAll('.extra-pool-chip').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const p = btn.dataset.p;
+      const k = state.pericias_extra_attr?.[p];
+      if(!k) return;
+      // Calcula usados nesse atributo (pool padrão + extras desse mesmo atributo)
+      const poolStd = PERICIAS_ATTR[k]||[];
+      const usadosStd = poolStd.reduce((s,pp)=>s+getPericiaPts(k,pp),0);
+      const usadosExtra = extras.filter(ep=>ep!==p&&state.pericias_extra_attr[ep]===k)
+        .reduce((s,ep)=>s+getPericiaPts(k,ep),0);
+      const usados = usadosStd + usadosExtra;
+      const pool = Math.max(0, getMod(state.atributos[k]));
+      const cur = getPericiaPts(k,p);
+      if(usados < pool){ state.pericias_pts[pKey(k,p)] = cur+1; renderPericiaPools(); }
+      else { showToast('Pool esgotado! Clique direito para remover.', '#c8a96e'); }
+    });
+    btn.addEventListener('contextmenu',e=>{
+      e.preventDefault();
+      const p = btn.dataset.p;
+      const k = state.pericias_extra_attr?.[p];
+      if(!k) return;
+      const key = pKey(k,p), cur = getPericiaPts(k,p);
+      if(cur>0){ state.pericias_pts[key]=cur-1; if(!state.pericias_pts[key]) delete state.pericias_pts[key]; renderPericiaPools(); }
+    });
+  });
+}
+
+// ─── PASSO 5: CLASSE ───────────────────────────────────────────────────────
+
+// ─── UTILS DE ATRIBUTO ────────────────────────────────────────────────────
+
+function getProficienteBonus(attrKey) {
+  return (state.proficiente_bonus||[]).filter(b=>b===attrKey).length;
+}
+
+function atributoEfetivo(k) { return (state.atributos[k]||10) + getProficienteBonus(k); }
+
+// ─── PASSO 1: CLASSE & NÍVEL ──────────────────────────────────────────────
+
+function calcRecursos() {
+  const s = state;
+  const con = atributoEfetivo('con'), _for = atributoEfetivo('for'), sab = atributoEfetivo('sab'), int_ = atributoEfetivo('int');
+  const modCon = getMod(con), modFor = getMod(_for), modSab = getMod(sab), modInt = getMod(int_);
+  const _nc2 = s.niveis_classe||{combatente:0,conjurador:0,proficiente:0};
+  const lvlC = _nc2.combatente||0, lvlConj = _nc2.conjurador||0;
+
+  // PV: base (con + modCon) + por nível acima de 1 (modCon mín 1) + combatente +1/4 con por nível
+  const pvBase = con + modCon;
+  const pvPorNivel = Math.max(1, modCon);
+  const pvCombatente = Math.floor(con/4) * lvlC;
+  const pvTotal = pvBase + pvPorNivel * Math.max(0, s.nivel - 1) + pvCombatente;
+
+  // Estamina (Combatente, base Força): base (_for + modFor) + modFor por nível de Combatente
+  const stamBase = _for + modFor;
+  const stamPorNivel = Math.max(1, modFor);
+  const stamTotal = stamBase + stamPorNivel * Math.max(0, lvlC - 1);
+
+  // Mana (Conjurador, base Int): base (int + modInt) + modInt por nível de Conjurador
+  const manaBase = int_ + modInt;
+  const manaPorNivel = Math.max(1, modInt);
+  const manaTotal = manaBase + manaPorNivel * Math.max(0, lvlConj - 1);
+
+  // Sanidade: base (sab + modSab) + modSab por nível acima de 1
+  const sanBase = sab + modSab;
+  const sanPorNivel = Math.max(1, modSab);
+  const sanTotal = sanBase + sanPorNivel * Math.max(0, s.nivel - 1);
+
+  return { pvTotal, stamTotal, manaTotal, sanTotal, lvlC, lvlConj };
+}
+
+function updateClassePreview() {
+  const s = state;
+  const nivelTotal = s.nivel;
+  const distrib = s.niveis_classe||{combatente:0,conjurador:0,proficiente:0};
+  const usado = distrib.combatente + distrib.conjurador + distrib.proficiente;
+  const restante = nivelTotal - usado;
+
+  $('nivel-display').textContent = nivelTotal;
+  $('niveis-restantes-display').textContent = restante;
+  $('niveis-restantes-display').style.color = restante === 0 ? '#22aa55' : restante < 0 ? '#cc4444' : 'var(--gold)';
+  $('lvl-combatente').textContent = distrib.combatente;
+  $('lvl-conjurador').textContent = distrib.conjurador;
+  $('lvl-proficiente').textContent = distrib.proficiente;
+
+  const { pvTotal, stamTotal, manaTotal } = calcRecursos();
+
+  if(distrib.combatente > 0) {
+    $('preview-combatente').textContent = `PV: ${pvTotal} · Estamina: ${stamTotal}`;
+  } else {
+    $('preview-combatente').textContent = `PV: ${pvTotal} (sem bônus) · Estamina: —`;
+  }
+  $('preview-conjurador').textContent = distrib.conjurador > 0 ? `Mana: ${manaTotal}` : 'Mana: — (sem níveis)';
+  $('preview-proficiente').textContent = `+${distrib.proficiente} ponto${distrib.proficiente!==1?'s':''} de atributo`;
+
+  // Atualiza info box
+  const classes_desc = Object.entries(distrib).filter(([,v])=>v>0)
+    .map(([c,v])=>`${v} ${c}`).join(', ') || 'nenhum distribuído';
+  $('classe-totais-text').innerHTML =
+    `Nível ${nivelTotal} · Distribuídos: ${usado}/${nivelTotal} (${classes_desc}) · ` +
+    (restante > 0 ? `<span style="color:#c8a96e">${restante} restante${restante>1?'s':''}</span>` :
+     restante === 0 ? `<span style="color:#22aa55">completo ✓</span>` :
+     `<span style="color:#cc4444">excedeu em ${Math.abs(restante)}</span>`);
+
+  // Sincroniza state.classes com as que tem nível > 0
+  state.classes = Object.entries(distrib).filter(([,v])=>v>0).map(([c])=>c);
+
+  // Garante proficiente_bonus tem slots suficientes
+  while(state.proficiente_bonus.length < distrib.proficiente) state.proficiente_bonus.push('');
+  if(state.proficiente_bonus.length > distrib.proficiente) state.proficiente_bonus = state.proficiente_bonus.slice(0, distrib.proficiente);
+
+  // Aviso
+  const avisoEl = $('classe-aviso');
+  if(avisoEl) {
+    if(restante > 0) avisoEl.innerHTML = `<div class="warn-box" style="margin-top:12px"><strong>⚠ ATENÇÃO</strong>Você ainda tem ${restante} nível${restante>1?'s':''} para distribuir entre as classes.</div>`;
+    else if(restante < 0) avisoEl.innerHTML = `<div class="warn-box" style="margin-top:12px"><strong>⚠ EXCEDEU</strong>Você distribuiu ${Math.abs(restante)} nível${Math.abs(restante)>1?'s':''} a mais que o total.</div>`;
+    else avisoEl.innerHTML = '';
+  }
+}
+
+$('btn-nivel-menos').addEventListener('click',()=>{
+  if(state.nivel <= 1) return;
+  state.nivel--;
+  // Ajusta niveis_classe se sobrando
+  let usado = state.niveis_classe.combatente + state.niveis_classe.conjurador + state.niveis_classe.proficiente;
+  while(usado > state.nivel) {
+    if(state.niveis_classe.proficiente > 0) { state.niveis_classe.proficiente--; }
+    else if(state.niveis_classe.conjurador > 0) { state.niveis_classe.conjurador--; }
+    else if(state.niveis_classe.combatente > 0) { state.niveis_classe.combatente--; }
+    usado--;
+  }
+  updateClassePreview();
+});
+$('btn-nivel-mais').addEventListener('click',()=>{
+  if(state.nivel >= 20) return;
+  state.nivel++;
+  updateClassePreview();
+});
+
+document.querySelectorAll('.classe-menos').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const c = btn.dataset.c;
+    if(state.niveis_classe[c] <= 0) return;
+    state.niveis_classe[c]--;
+    updateClassePreview();
+  });
+});
+document.querySelectorAll('.classe-mais').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const c = btn.dataset.c;
+    const usado = state.niveis_classe.combatente + state.niveis_classe.conjurador + state.niveis_classe.proficiente;
+    if(usado >= state.nivel) { showToast('Sem níveis restantes!','#cc4444'); return; }
+    state.niveis_classe[c]++;
+    updateClassePreview();
+  });
+});
+
+// ─── PASSO 6: RESISTÊNCIAS ─────────────────────────────────────────────────
+
+function renderResistChips() {
+  const all=[...RESIST_TIPOS,...COND_TIPOS];
+  $('resist-chips').innerHTML = all.map(t=>{
+    const sel=state.resistencias.find(r=>r.tipo===t);
+    const cls=sel?`sel-${sel.modo}`:'';
+    return `<button class="resist-chip ${cls}" data-tipo="${t}">${t}</button>`;
+  }).join('');
+  $('resist-chips').querySelectorAll('.resist-chip').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const tipo=btn.dataset.tipo;
+      const idx=state.resistencias.findIndex(r=>r.tipo===tipo);
+      const custo=state.modo_resist==='r'?1:2;
+      if(idx>=0){ state.pontos_usados-=state.resistencias[idx].custo; state.resistencias.splice(idx,1); }
+      else if(state.pontos_usados+custo<=10){ state.resistencias.push({tipo,modo:state.modo_resist,custo}); state.pontos_usados+=custo; }
+      $('pontos-restantes').textContent=10-state.pontos_usados;
+      renderResistChips();
+      renderResistDisplay();
+    });
+  });
+}
+
+function renderResistDisplay() {
+  const el=$('resist-selected');
+  if(!state.resistencias.length){ el.textContent='Nenhum selecionado ainda.'; return; }
+  const g={r:[],ic:[],id:[]};
+  state.resistencias.forEach(r=>g[r.modo].push(r.tipo));
+  let h='';
+  if(g.r.length)  h+=`<span style="color:#22aa55">Resistências:</span> ${g.r.join(', ')}<br>`;
+  if(g.ic.length) h+=`<span style="color:#8a8acc">Imun. Condição:</span> ${g.ic.join(', ')}<br>`;
+  if(g.id.length) h+=`<span style="color:#cc4444">Imun. Dano:</span> ${g.id.join(', ')}`;
+  el.innerHTML=h;
+}
+
+document.querySelectorAll('.mode-btn[data-mode]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    state.modo_resist=btn.dataset.mode;
+  });
+});
+
+// ─── PASSO 7: VIDA ─────────────────────────────────────────────────────────
+
+function calcVida() {
+  const des = atributoEfetivo('des');
+  const {pvTotal,stamTotal,manaTotal,sanTotal,lvlC,lvlConj} = calcRecursos();
+  const con = atributoEfetivo('con'), _for = atributoEfetivo('for'), sab = atributoEfetivo('sab'), int_ = atributoEfetivo('int');
+
+  $('pv-calculado').textContent=`${pvTotal} PV`;
+  $('san-calculado').textContent=`${sanTotal} SAN`;
+  $('iniciativa-val').textContent=`Bônus de iniciativa: 1d20 ${modStr(des)} — nível ${state.nivel}`;
+
+  let extra = '';
+  // Breakdown PV
+  const pvBreak = `Base: ${con}+${getMod(con)} = ${con+getMod(con)} · Por nível: +${Math.max(1,getMod(con))}×${Math.max(0,state.nivel-1)} · Combatente: +${Math.floor(con/4)}×${lvlC}`;
+  extra += `<div class="card red" style="margin-top:12px"><p class="card-title">📊 BREAKDOWN PV</p><p style="font-size:.8rem;color:var(--text-dim)">${pvBreak}</p><p style="font-family:'Cinzel',serif;font-size:1.3rem;color:#cc4444;margin-top:6px">Total: ${pvTotal}</p></div>`;
+
+  if(lvlC > 0) {
+    const sBreak = `Base: ${_for}+${getMod(_for)} = ${_for+getMod(_for)} · Por nível Combatente: +${Math.max(1,getMod(_for))}×${Math.max(0,lvlC-1)}`;
+    extra += `<div class="card red" style="margin-top:8px"><p class="card-title" style="color:#cc4444">⚔ ESTAMINA</p><p style="font-size:.8rem;color:var(--text-dim)">${sBreak}</p><p style="font-family:'Cinzel',serif;font-size:1.3rem;color:#cc4444;margin-top:6px">Total: ${stamTotal}</p></div>`;
+  }
+  if(lvlConj > 0) {
+    const mBreak = `Base: ${int_}+${getMod(int_)} = ${int_+getMod(int_)} · Por nível Conjurador: +${Math.max(1,getMod(int_))}×${Math.max(0,lvlConj-1)}`;
+    extra += `<div class="card blue" style="margin-top:8px"><p class="card-title">✦ MANA</p><p style="font-size:.8rem;color:var(--text-dim)">${mBreak}</p><p style="font-family:'Cinzel',serif;font-size:1.3rem;color:var(--energia);margin-top:6px">Total: ${manaTotal}</p></div>`;
+  }
+  const sanBreak = `Base: ${sab}+${getMod(sab)} = ${sab+getMod(sab)} · Por nível: +${Math.max(1,getMod(sab))}×${Math.max(0,state.nivel-1)}`;
+  extra += `<div class="card" style="margin-top:8px"><p class="card-title" style="color:#8a8acc">🧠 SANIDADE — BREAKDOWN</p><p style="font-size:.8rem;color:var(--text-dim)">${sanBreak}</p></div>`;
+
+  const extraEl = document.getElementById('extra-recursos');
+  if(extraEl) extraEl.innerHTML = extra;
+}
+
+// ─── PASSO 8: SUMÁRIO ──────────────────────────────────────────────────────
+
+function buildSummary() {
+  calcVida();
+  const {pvTotal,stamTotal,manaTotal,sanTotal,lvlC,lvlConj} = calcRecursos();
+  const attrRows=ATTR_KEYS.map(k=>{ const base=state.atributos[k]; const bonus=getProficienteBonus(k); const total=base+bonus; return `<div class="summary-row"><span class="summary-key">${ATTR_NAMES[k]}</span><span class="summary-val">${total}${bonus>0?` <span style="color:var(--gold);font-size:.65rem">(+${bonus}prof)</span>`:''} (mod ${modStr(total)})</span></div>`; }).join('');
+  // periciaRows now built inline in summary HTML below
+  const resistRows=state.resistencias.length?state.resistencias.map(r=>`<div class="summary-row"><span class="summary-key">${r.tipo}</span><span class="summary-val" style="color:${r.modo==='r'?'#22aa55':r.modo==='ic'?'#8a8acc':'#cc4444'}">${r.modo==='r'?'Resistência':r.modo==='ic'?'Imun. Condição':'Imun. Dano'}</span></div>`).join(''):`<div style="color:var(--text-dim);font-size:.82rem">Nenhuma</div>`;
+  $('summary-content').innerHTML=`
+    <div class="summary-section"><div class="summary-title">IDENTIDADE</div>
+      <div class="summary-row"><span class="summary-key">Nome</span><span class="summary-val">${state.nome||'—'}</span></div>
+      <div class="summary-row"><span class="summary-key">Raça</span><span class="summary-val">${state.raca||'—'}</span></div>
+      <div class="summary-row"><span class="summary-key">Tendência</span><span class="summary-val">${state.tendencia||'—'}</span></div>
+      <div class="summary-row"><span class="summary-key">Ideais</span><span class="summary-val">${state.ideais||'—'}</span></div>
+      <div class="summary-row"><span class="summary-key">Ligações</span><span class="summary-val">${state.ligacoes||'—'}</span></div>
+      <div class="summary-row"><span class="summary-key">Defeitos</span><span class="summary-val">${state.defeitos||'—'}</span></div>
+    </div>
+    <div class="summary-section"><div class="summary-title">ATRIBUTOS</div>${attrRows}</div>
+    <div class="summary-section"><div class="summary-title">OCUPAÇÃO</div>
+      <div class="summary-row"><span class="summary-key">Ocupação</span><span class="summary-val">${state.ocupacao||'—'}</span></div>
+      <div class="summary-row"><span class="summary-key">Vantagem em</span><span class="summary-val" style="color:#22aa55">${state.vantagem_pericia||'—'} ${state.vantagem_pericia?'(+1 ★ 2d20)':''}</span></div>
+      <div class="summary-row"><span class="summary-key">Aprendidas</span><span class="summary-val" style="color:#c8a96e">${(state.pericias_aprendidas||[]).length?state.pericias_aprendidas.map(p=>p+' (+1)').join(', '):'—'}</span></div>
+    </div>
+    <div class="summary-section"><div class="summary-title">PERÍCIAS</div>${(()=>{
+      const rows = Object.entries(state.pericias_pts).filter(([,v])=>v>0).map(([key,v])=>{
+        const [attr,pericia]=key.split('::');
+        const bonus=getBonusOcupacao(pericia);
+        const attrLabel = ATTR_NAMES[attr]||attr;
+        return `<div class="summary-row"><span class="summary-key">${pericia} <span style="color:#4a4a6a;font-size:.7rem">(${attrLabel})</span></span><span class="summary-val">+${v+bonus}${bonus?' <span style="color:#22aa55;font-size:.65rem">+ocup</span>':''}</span></div>`;
+      });
+      // Adiciona perícias extras da ocupação mesmo sem pontos investidos
+      const extras = getPericiasExtraOcup();
+      extras.forEach(p=>{
+        const k = state.pericias_extra_attr?.[p];
+        const pts = k ? getPericiaPts(k,p) : 0;
+        const bonus = getBonusOcupacao(p);
+        const total = pts + bonus;
+        if(total > 0 || bonus > 0){
+          const attrLabel = k ? ATTR_NAMES[k] : '?';
+          rows.push(`<div class="summary-row"><span class="summary-key">${p} <span style="color:#4a4a6a;font-size:.7rem">(${attrLabel})</span></span><span class="summary-val">+${total} <span style="color:#22aa55;font-size:.65rem">+ocup</span></span></div>`);
+        }
+      });
+      return rows.join('')||'<div style="color:var(--text-dim);font-size:.82rem">Nenhuma</div>';
+    })()}</div>
+    <div class="summary-section"><div class="summary-title">CLASSE & NÍVEL</div>
+      <div class="summary-row"><span class="summary-key">Nível Total</span><span class="summary-val" style="color:var(--gold)">${state.nivel}</span></div>
+      ${Object.entries(state.niveis_classe||{}).filter(([,v])=>v>0).map(([c,v])=>`<div class="summary-row"><span class="summary-key">${c.charAt(0).toUpperCase()+c.slice(1)}</span><span class="summary-val">${v} níveis</span></div>`).join('')}
+      <div class="summary-row"><span class="summary-key">PV</span><span class="summary-val" style="color:#cc4444">${pvTotal}</span></div>
+      <div class="summary-row"><span class="summary-key">Sanidade</span><span class="summary-val" style="color:#8a8acc">${sanTotal}</span></div>
+      ${lvlC>0?`<div class="summary-row"><span class="summary-key">Estamina</span><span class="summary-val" style="color:#cc4444">${stamTotal}</span></div>`:''}
+      ${lvlConj>0?`<div class="summary-row"><span class="summary-key">Mana</span><span class="summary-val" style="color:var(--energia)">${manaTotal}</span></div>`:''}
+    </div>
+    <div class="summary-section"><div class="summary-title">RESISTÊNCIAS & IMUNIDADES</div>${resistRows}</div>
+    <div class="summary-section"><div class="summary-title">COMBATE</div>
+      <div class="summary-row"><span class="summary-key">Iniciativa</span><span class="summary-val">1d20 ${modStr(atributoEfetivo('des'))}</span></div>
+    </div>
+    ${(state.hakas||0)>0?`<div class="summary-section"><div class="summary-title">HAKAS & CRÉDITO</div><div class="summary-row"><span class="summary-key">Hakas</span><span class="summary-val" style="color:var(--gold)">${(state.hakas||0).toLocaleString('pt-BR')}</span></div><div class="summary-row"><span class="summary-key">Crédito diário</span><span class="summary-val" style="color:var(--gold)">${(state.credito||0).toLocaleString('pt-BR')}</span></div></div>`:''}
+    `;
+}
+
+$('btn-salvar').addEventListener('click',salvarFichaAtual);
+$('btn-gerar').addEventListener('click',gerarFicha);
+
+// ─── GERAR FICHA ───────────────────────────────────────────────────────────
+
+function gerarFicha() {
+  const s = state;
+  // Usa atributos com bônus Proficiente
+  const _getEf = k => (s.atributos[k]||10) + (s.proficiente_bonus||[]).filter(b=>b===k).length;
+  const con = _getEf('con'), sab = _getEf('sab'), des = _getEf('des'), _for = _getEf('for'), int_ = _getEf('int');
+  const modDes = getMod(des);
+  // Recalcula recursos com atributos efetivos
+  const _nc = s.niveis_classe||{combatente:0,conjurador:0,proficiente:0};
+  const lvlC = _nc.combatente||0, lvlConj = _nc.conjurador||0;
+  const pvTotal = (con+getMod(con)) + Math.max(1,getMod(con))*Math.max(0,(s.nivel||1)-1) + Math.floor(con/4)*lvlC;
+  const stamTotal = lvlC>0 ? (_for+getMod(_for)) + Math.max(1,getMod(_for))*Math.max(0,lvlC-1) : 0;
+  const manaTotal = lvlConj>0 ? (int_+getMod(int_)) + Math.max(1,getMod(int_))*Math.max(0,lvlConj-1) : 0;
+  const pv = pvTotal, san = (sab+getMod(sab)) + Math.max(1,getMod(sab))*Math.max(0,(s.nivel||1)-1);
+
+  // Atributos (com bônus Proficiente)
+  const attrBoxes = ATTR_KEYS.map(k => {
+    const v = _getEf(k), m = getMod(v);
+    return `<div class="attr-box">
+      <div class="attr-abbr">${ATTR_ABBR[k]}</div>
+      <div class="attr-val">${v}</div>
+      <div class="attr-mod">${m >= 0 ? '+' : ''}${m}</div>
+      <div class="attr-name">${ATTR_NAMES[k]}</div>
+    </div>`;
+  }).join('');
+
+  // Perícias agrupadas por atributo
+  const apren = s.pericias_aprendidas || [];
+  const totals = {};
+  Object.entries(s.pericias_pts).filter(([, v]) => v > 0).forEach(([key, v]) => {
+    const [attr, pericia] = key.split('::');
+    totals[`${attr}::${pericia}`] = (totals[`${attr}::${pericia}`] || 0) + v;
+  });
+  // Adiciona perícias com bônus de ocupação que podem não ter pontos investidos
+  [...apren, ...(s.vantagem_pericia ? [s.vantagem_pericia] : [])].forEach(p => {
+    const found = Object.keys(totals).some(k => k.split('::')[1] === p);
+    if (!found) {
+      // Verifica pool padrão primeiro
+      const attrKey = Object.entries(PERICIAS_ATTR).find(([, ps]) => ps.includes(p));
+      if (attrKey) { totals[`${attrKey[0]}::${p}`] = 0; }
+      // Verifica extras com atributo escolhido
+      else if(s.pericias_extra_attr?.[p]) {
+        totals[`${s.pericias_extra_attr[p]}::${p}`] = 0;
+      }
+    }
+  });
+  // Adiciona extras sem bonus mas com pontos investidos
+  Object.entries(s.pericias_extra_attr||{}).forEach(([p,k])=>{
+    const key = `${k}::${p}`;
+    if(s.pericias_pts[key] && !totals[key]) totals[key] = s.pericias_pts[key];
+  });
+
+  const periciasByAttr = {};
+  Object.entries(totals).forEach(([key, pts]) => {
+    const [attr, pericia] = key.split('::');
+    if (!periciasByAttr[attr]) periciasByAttr[attr] = [];
+    const bonus = (s.vantagem_pericia === pericia || apren.includes(pericia)) ? 1 : 0;
+    const vant = s.vantagem_pericia === pericia;
+    periciasByAttr[attr].push({ pericia, pts, bonus, vant });
+  });
+
+  const periciaRows = Object.keys(periciasByAttr).length === 0
+    ? '<div style="color:#4a4a6a;font-size:.82rem;padding:8px 0">Nenhuma perícia distribuída.</div>'
+    : ATTR_KEYS.filter(k => periciasByAttr[k]).map(k => `
+      <div class="pgroup">
+        <div class="pgroup-label">${ATTR_ABBR[k]}</div>
+        ${periciasByAttr[k].map(({ pericia, pts, bonus, vant }) => `
+          <div class="pr">
+            <span class="pn">${pericia}${vant ? ' <span class="vtag">2d20</span>' : ''}</span>
+            <span class="pb">+${pts + bonus}</span>
+          </div>`).join('')}
+      </div>`).join('');
+
+  // Classes
+  const classTags = s.classes.length
+    ? s.classes.map(c => {
+        const col = c === 'combatente' ? '#cc4444' : c === 'conjurador' ? '#3388ff' : '#c8a96e';
+        const bg  = c === 'combatente' ? '#2a0505' : c === 'conjurador' ? '#051a2a' : '#1a1400';
+        return `<span class="ctag" style="border-color:${col};color:${col};background:${bg}">${c.charAt(0).toUpperCase() + c.slice(1)}</span>`;
+      }).join('')
+    : '<span style="color:#4a4a6a;font-size:.78rem">Nenhuma selecionada</span>';
+
+  // Resistências
+  const rSections = [
+    { k: 'r',  label: 'RESISTÊNCIAS',     c: '#22aa55', bg: '#0a1f0a' },
+    { k: 'ic', label: 'IMUN. CONDIÇÃO',   c: '#8a8acc', bg: '#0f0f1a' },
+    { k: 'id', label: 'IMUN. DANO',       c: '#cc4444', bg: '#1f0a0a' }
+  ].map(({ k, label, c, bg }) => {
+    const items = s.resistencias.filter(r => r.modo === k);
+    if (!items.length) return '';
+    return `<div class="rsec">
+      <div class="rsec-label" style="color:${c}">${label}</div>
+      <div class="rtags">${items.map(r => `<span class="rtag" style="border-color:${c}55;color:${c};background:${bg}">${r.tipo}</span>`).join('')}</div>
+    </div>`;
+  }).join('');
+  const rHtml = rSections || '<span style="color:#4a4a6a;font-size:.82rem">Nenhuma selecionada.</span>';
+
+  // Fundamentos
+  const fundBoxes = [
+    { n: 'Morte', c: '#aaa' }, { n: 'Sangue', c: '#cc4444' },
+    { n: 'Conhecimento', c: '#c8a96e' }, { n: 'Medo', c: '#8a8acc' },
+    { n: 'Guerra', c: '#b85c00' }, { n: 'Energia', c: '#3388ff' }
+  ].map(f => `<div class="fb"><div class="fn" style="color:${f.c}">${f.n}</div><div class="fl">—</div></div>`).join('');
+
+  const css = `
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:#07070f;color:#c8c8e8;font-family:"IM Fell English",serif;padding:20px 16px 60px}
+    .sheet{max-width:900px;margin:0 auto;background:#0d0d1a;border:1px solid #2a2a3a;border-radius:2px}
+
+    /* HEADER */
+    .sh{display:flex;align-items:center;gap:16px;padding:20px 24px;border-bottom:2px solid #c8a96e;background:linear-gradient(180deg,#0d0d20,#0d0d1a)}
+    .st{flex:1}
+    .st h1{font-family:"Cinzel Decorative",serif;font-size:1.5rem;color:#c8a96e;letter-spacing:.2em}
+    .st h2{font-family:"Cinzel",serif;font-size:.6rem;color:#6a6a8a;letter-spacing:.28em;margin-top:3px}
+    .si{text-align:right;flex-shrink:0}
+    .sn{font-family:"Cinzel",serif;font-size:1.1rem;color:#c8c8e8;letter-spacing:.08em}
+    .sr{font-family:"Cinzel",serif;font-size:.65rem;color:#6a6a8a;letter-spacing:.15em;margin-top:3px}
+    .sd{font-family:"Cinzel",serif;font-size:.65rem;color:#c8a96e;margin-top:2px}
+
+    /* INFO BAR */
+    .infobar{display:flex;gap:0;border-bottom:1px solid #2a2a3a}
+    .ib{flex:1;padding:10px 14px;border-right:1px solid #2a2a3a;text-align:center}
+    .ib:last-child{border-right:none}
+    .ib-label{font-family:"Cinzel",serif;font-size:.5rem;letter-spacing:.15em;color:#4a4a6a;margin-bottom:4px}
+    .ib-val{font-family:"Cinzel Decorative",serif;font-size:1.3rem}
+    .ib-val.pv{color:#cc4444}
+    .ib-val.san{color:#8a8acc}
+    .ib-val.ini{color:#c8a96e}
+    .ib-sub{font-family:"Cinzel",serif;font-size:.55rem;color:#4a4a6a;margin-top:2px}
+
+    /* BODY */
+    .body{display:grid;grid-template-columns:220px 1fr;gap:0;border-top:1px solid #1e1e2e}
+    .col-left{border-right:1px solid #2a2a3a;padding:16px;display:flex;flex-direction:column;gap:14px}
+    .col-right{padding:16px;display:flex;flex-direction:column;gap:14px}
+
+    /* BLOCK */
+    .bk{background:#0a0a12;border:1px solid #1e1e2e;border-radius:2px;padding:14px}
+    .bt{font-family:"Cinzel",serif;font-size:.58rem;letter-spacing:.2em;color:#c8a96e;padding-bottom:8px;margin-bottom:12px;border-bottom:1px solid #1e1e2e}
+
+    /* ATRIBUTOS */
+    .attrs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+    .attr-box{background:#12121f;border:1px solid #1e1e2e;border-radius:2px;padding:10px 4px;text-align:center}
+    .attr-abbr{font-family:"Cinzel",serif;font-size:.52rem;letter-spacing:.1em;color:#4a4a6a}
+    .attr-val{font-family:"Cinzel Decorative",serif;font-size:1.5rem;color:#c8c8e8;line-height:1.1;margin:2px 0}
+    .attr-mod{font-family:"Cinzel",serif;font-size:.85rem;color:#c8a96e;font-weight:600}
+    .attr-name{font-family:"Cinzel",serif;font-size:.38rem;letter-spacing:.06em;color:#3a3a5a;margin-top:2px}
+
+    /* COMBATE */
+    .cg{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+    .cb{background:#12121f;border:1px solid #1e1e2e;border-radius:2px;padding:8px 6px;text-align:center}
+    .cl2{font-family:"Cinzel",serif;font-size:.45rem;letter-spacing:.1em;color:#4a4a6a;margin-bottom:4px}
+    .cv{font-family:"Cinzel",serif;font-size:.85rem;color:#c8a96e}
+
+    /* FUNDAMENTOS */
+    .fg{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+    .fb{background:#12121f;border:1px solid #1e1e2e;border-radius:2px;padding:7px 3px;text-align:center}
+    .fn{font-family:"Cinzel",serif;font-size:.42rem;letter-spacing:.06em}
+    .fl{font-family:"Cinzel Decorative",serif;font-size:1rem;color:#c8c8e8;margin-top:3px}
+    .cat{font-family:"Cinzel",serif;font-size:.55rem;letter-spacing:.1em;color:#4a4a6a;margin-top:10px;padding-top:8px;border-top:1px solid #1e1e2e}
+
+    /* OCUPAÇÃO */
+    .ocup-nome{font-family:"Cinzel",serif;font-size:.95rem;color:#c8c8e8;letter-spacing:.06em;margin-bottom:6px}
+    .ocup-vant{font-size:.8rem;color:#22aa55;margin-bottom:8px;padding:4px 8px;background:#0a1f0a;border:1px solid #22aa5540;border-radius:2px;display:inline-block}
+    .ctags{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+    .ctag{font-family:"Cinzel",serif;font-size:.6rem;padding:4px 10px;border-radius:1px;border:1px solid;display:inline-block}
+
+    /* PERÍCIAS */
+    .pgroup{margin-bottom:10px}
+    .pgroup:last-child{margin-bottom:0}
+    .pgroup-label{font-family:"Cinzel",serif;font-size:.5rem;letter-spacing:.15em;color:#4a4a6a;margin-bottom:4px;padding-bottom:3px;border-bottom:1px solid #1a1a2a}
+    .pr{display:flex;align-items:center;gap:6px;padding:5px 2px;border-bottom:1px solid #111120;font-size:.82rem}
+    .pr:last-child{border-bottom:none}
+    .pn{flex:1;color:#c8c8e8}
+    .pb{font-family:"Cinzel",serif;font-size:.78rem;color:#c8a96e;font-weight:600}
+    .vtag{font-family:"Cinzel",serif;font-size:.48rem;background:#0a1f0a;border:1px solid #22aa5560;color:#22aa55;padding:1px 5px;border-radius:1px;vertical-align:middle;margin-left:3px}
+
+    /* RESISTÊNCIAS */
+    .rsec{margin-bottom:10px}
+    .rsec:last-child{margin-bottom:0}
+    .rsec-label{font-family:"Cinzel",serif;font-size:.52rem;letter-spacing:.12em;margin-bottom:5px}
+    .rtags{display:flex;flex-wrap:wrap;gap:4px}
+    .rtag{font-family:"Cinzel",serif;font-size:.6rem;padding:3px 9px;border-radius:1px;border:1px solid}
+
+    /* ANTECEDENTE */
+    .af{margin-bottom:10px}
+    .af:last-child{margin-bottom:0}
+    .al{font-family:"Cinzel",serif;font-size:.52rem;letter-spacing:.12em;color:#4a4a6a;margin-bottom:4px}
+    .av{font-size:.82rem;color:#c8c8e8;line-height:1.6;min-height:20px;padding-bottom:6px;border-bottom:1px solid #1e1e2e;white-space:pre-wrap}
+
+    /* NOTAS */
+    .na{min-height:100px;border:1px solid #1e1e2e;border-radius:2px;background:#0a0a12;flex:1}
+
+    /* PRINT BTN */
+    .pb2{position:fixed;bottom:20px;right:20px;font-family:"Cinzel",serif;font-size:.7rem;letter-spacing:.12em;padding:12px 22px;background:#1a1400;border:1px solid #c8a96e;color:#c8a96e;cursor:pointer;border-radius:2px;z-index:999;box-shadow:0 4px 20px rgba(0,0,0,.5)}
+    .pb2:hover{background:#2a2000}
+
+    /* RESPONSIVE */
+    @media(max-width:640px){
+      .body{grid-template-columns:1fr}
+      .col-left{border-right:none;border-bottom:1px solid #2a2a3a}
+      .attrs{grid-template-columns:repeat(6,1fr)}
+      .attr-name{display:none}
+      .infobar{flex-wrap:wrap}
+      .ib{min-width:33%}
+      .sh{flex-direction:column;text-align:center}
+      .si{text-align:center;margin-top:8px}
+    }
+    @media print{
+      body{background:#fff!important;padding:0;color:#000}
+      .pb2{display:none!important}
+      .sheet{border:none;max-width:100%}
+      .sh{background:#fff!important;border-bottom:2px solid #8a6020}
+      .st h1{color:#8a6020!important;text-shadow:none!important}
+      .st h2,.sr,.al,.pgroup-label,.ib-label,.cl2,.attr-abbr{color:#666!important}
+      .bk{background:#f9f9f9!important;border-color:#ddd!important}
+      .attr-box,.cb,.fb{background:#f0f0f0!important;border-color:#ddd!important}
+      .attr-val,.pn,.av,.fl,.cv,.ocup-nome{color:#000!important}
+      .attr-mod,.pb,.ib-val.ini,.bt,.cv{color:#8a6020!important}
+      .ib-val.pv{color:#cc4444!important}
+      .ib-val.san{color:#6666aa!important}
+      .sd,.ocup-vant{color:#22aa55!important}
+      .infobar,.body{border-color:#ddd!important}
+    }
+  `;
+
+  const html = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ficha — ${s.nome || 'Personagem'}</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Cinzel+Decorative:wght@400;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>${css}</style>
+</head>
+<body>
+<button class="pb2" onclick="window.print()">🖨 Imprimir / PDF</button>
+<div class="sheet">
+
+  <!-- CABEÇALHO -->
+  <div class="sh">
+    <div class="st">
+      <h1>TRIAKORVO</h1>
+      <h2>FICHA DE PERSONAGEM — TEMPORADA III</h2>
+    </div>
+    <div class="si">
+      <div class="sn">${s.nome || '—'}</div>
+      <div class="sr">${s.raca || '—'}</div>
+      <div class="sd">${s.tendencia || '—'}</div>
+    </div>
+  </div>
+
+  <!-- BARRA DE STATS -->
+  <div class="infobar">
+    <div class="ib">
+      <div class="ib-label">PONTOS DE VIDA</div>
+      <div class="ib-val pv">${pvTotal}</div>
+      <div class="ib-sub">Nível ${s.nivel||1}</div>
+    </div>
+    <div class="ib">
+      <div class="ib-label">SANIDADE</div>
+      <div class="ib-val san">${san}</div>
+      <div class="ib-sub">Nível ${s.nivel||1}</div>
+    </div>
+    ${lvlC>0?`<div class="ib"><div class="ib-label">ESTAMINA</div><div class="ib-val" style="color:#cc4444">${stamTotal}</div><div class="ib-sub">${lvlC} nív. Combatente</div></div>`:''}
+    ${lvlConj>0?`<div class="ib"><div class="ib-label">MANA</div><div class="ib-val" style="color:#3388ff">${manaTotal}</div><div class="ib-sub">${lvlConj} nív. Conjurador</div></div>`:''}
+    <div class="ib">
+      <div class="ib-label">INICIATIVA</div>
+      <div class="ib-val ini">1d20${modDes >= 0 ? '+' : ''}${modDes}</div>
+      <div class="ib-sub">mod Destreza</div>
+    </div>
+    <div class="ib">
+      <div class="ib-label">NÍVEL</div>
+      <div class="ib-val" style="color:var(--gold,#c8a96e);font-family:'Cinzel Decorative',serif">${s.nivel||1}</div>
+      <div class="ib-sub">${s.classes.length ? s.classes.join(' + ') : 'sem classe'}</div>
+    </div>
+  </div>
+
+  <!-- CORPO -->
+  <div class="body">
+
+    <!-- COLUNA ESQUERDA -->
+    <div class="col-left">
+
+      <div class="bk">
+        <div class="bt">ATRIBUTOS</div>
+        <div class="attrs">${attrBoxes}</div>
+      </div>
+
+      <div class="bk">
+        <div class="bt">COMBATE</div>
+        <div class="cg">
+          <div class="cb"><div class="cl2">INICIATIVA</div><div class="cv">1d20${modDes >= 0 ? '+' : ''}${modDes}</div></div>
+          <div class="cb"><div class="cl2">ARM. BALÍSTICA</div><div class="cv">—</div></div>
+          <div class="cb"><div class="cl2">ARM. FÍSICA</div><div class="cv">—</div></div>
+          <div class="cb"><div class="cl2">ARM. MÁGICA</div><div class="cv">—</div></div>
+        </div>
+      </div>
+
+      <div class="bk">
+        <div class="bt">CLASSE & NÍVEL</div>
+        ${Object.entries(s.niveis_classe||{}).filter(([,v])=>v>0).map(([c,v])=>{
+          const cor=c==='combatente'?'#cc4444':c==='conjurador'?'#3388ff':'#c8a96e';
+          return `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #1e1e2e;font-family:'Cinzel',serif;font-size:.7rem"><span style="color:${cor}">${c.charAt(0).toUpperCase()+c.slice(1)}</span><span style="color:${cor}">${v} nív.</span></div>`;
+        }).join('')||'<div style="color:#4a4a6a;font-size:.78rem">Nenhuma classe</div>'}
+      </div>
+
+      <div class="bk">
+        <div class="bt">FUNDAMENTOS</div>
+        <div class="fg">${fundBoxes}</div>
+        <div class="cat">CATARSE: —</div>
+      </div>
+
+    </div>
+
+    <!-- COLUNA DIREITA -->
+    <div class="col-right">
+
+      <div class="bk">
+        <div class="bt">OCUPAÇÃO & CLASSE</div>
+        <div class="ocup-nome">${s.ocupacao || '—'}</div>
+        ${s.vantagem_pericia ? `<div class="ocup-vant">▲ Vantagem: ${s.vantagem_pericia}</div>` : ''}
+        ${apren.length ? `<div style="font-family:'Cinzel',serif;font-size:.55rem;color:#4a4a6a;margin-top:6px;margin-bottom:4px">PERÍCIAS APRENDIDAS</div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">${apren.map(p => `<span style="font-family:'Cinzel',serif;font-size:.6rem;padding:3px 9px;border-radius:1px;background:#1a1400;border:1px solid #c8a96e55;color:#c8a96e">${p}</span>`).join('')}</div>` : ''}
+        <div class="ctags">${classTags}</div>
+      </div>
+
+      <div class="bk">
+        <div class="bt">PERÍCIAS</div>
+        ${periciaRows}
+      </div>
+
+      <div class="bk">
+        <div class="bt">RESISTÊNCIAS & IMUNIDADES</div>
+        ${rHtml}
+      </div>
+
+      <div class="bk">
+        <div class="bt">ANTECEDENTE</div>
+        <div class="af"><div class="al">IDEAIS</div><div class="av">${s.ideais || '—'}</div></div>
+        <div class="af"><div class="al">LIGAÇÕES</div><div class="av">${s.ligacoes || '—'}</div></div>
+        <div class="af"><div class="al">DEFEITOS</div><div class="av">${s.defeitos || '—'}</div></div>
+      </div>
+
+      ${(s.hakas||0)>0?`<div class="bk"><div class="bt">HAKAS & CRÉDITO</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <div style="flex:1;text-align:center;padding:8px;background:#12121f;border:1px solid #1e1e2e;border-radius:2px">
+            <div style="font-family:'Cinzel',serif;font-size:.5rem;color:#4a4a6a;margin-bottom:4px">HAKAS</div>
+            <div style="font-family:'Cinzel Decorative',serif;font-size:1.2rem;color:#c8a96e">${(s.hakas||0).toLocaleString('pt-BR')}</div>
+          </div>
+          <div style="flex:1;text-align:center;padding:8px;background:#12121f;border:1px solid #1e1e2e;border-radius:2px">
+            <div style="font-family:'Cinzel',serif;font-size:.5rem;color:#4a4a6a;margin-bottom:4px">CRÉDITO DIÁRIO</div>
+            <div style="font-family:'Cinzel Decorative',serif;font-size:1.2rem;color:#c8a96e">${(s.credito||0).toLocaleString('pt-BR')}</div>
+          </div>
+        </div>
+      </div>`:''}
+      <div class="bk" style="flex:1">
+        <div class="bt">NOTAS & EQUIPAMENTOS</div>
+        <div class="na"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body></html>`;
+
+  const w = window.open('', '_blank');
+  if (w) { w.document.write(html); w.document.close(); }
+}
+
+// ─── STORAGE ───────────────────────────────────────────────────────────────
+
+function loadFichas() {
+  try{ return JSON.parse(localStorage.getItem(STORAGE_KEY))||[]; }catch{ return []; }
+}
+function saveFichas(fichas) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(fichas));
+}
+
+function salvarFichaAtual() {
+  if(!state.nome){ showToast('Preencha o nome do personagem!','#cc4444'); showStep(0); return; }
+  const fichas=loadFichas();
+  const ficha={...state, _savedAt:new Date().toISOString()};
+  if(!ficha._id) ficha._id='f_'+Date.now();
+  state._id=ficha._id;
+  const idx=fichas.findIndex(f=>f._id===ficha._id);
+  if(idx>=0) fichas[idx]=ficha; else fichas.unshift(ficha);
+  saveFichas(fichas);
+  showToast('Ficha salva com sucesso!','#22aa55');
+}
+
+function carregarFicha(id) {
+  const ficha=loadFichas().find(f=>f._id===id);
+  if(!ficha) return;
+  state=Object.assign(freshState(),ficha);
+  // Restore inputs
+  $('inp-nome').value=state.nome||'';
+  $('inp-raca').value=state.raca||'';
+  $('inp-ideais').value=state.ideais||'';
+  $('inp-ligacoes').value=state.ligacoes||'';
+  $('inp-defeitos').value=state.defeitos||'';
+  // Tendencia
+  document.querySelectorAll('#tendencia-opts .resist-chip').forEach(b=>{
+    b.classList.toggle('sel-r',b.dataset.tend===state.tendencia);
+  });
+  // Classes
+  ['combatente','conjurador','proficiente'].forEach(c=>{
+    const el=$('cc-'+c);
+    if(el) el.classList.toggle('selected',state.classes.includes(c));
+  });
+  // Restore niveis_classe
+  if(!state.niveis_classe) state.niveis_classe={combatente:0,conjurador:0,proficiente:0};
+  if(!state.nivel) state.nivel=1;
+  if(!state.proficiente_bonus) state.proficiente_bonus=[];
+  updateClassePreview();
+  // Atributos
+  renderAttrInputs();
+  // Ocupação
+  renderOcupGrid();
+  if(state.ocupacao){
+    const btn=[...$('ocup-grid').querySelectorAll('.ocup-btn')].find(b=>b.dataset.ocup===state.ocupacao);
+    if(btn){ btn.classList.add('selected'); renderOcupDetail(); }
+  }
+  // Resist
+  renderResistChips();
+  renderResistDisplay();
+  $('pontos-restantes').textContent=10-state.pontos_usados;
+  // Modo resist
+  document.querySelectorAll('.mode-btn').forEach(b=>{
+    b.classList.toggle('active',b.dataset.mode===state.modo_resist);
+  });
+  showStep(0);
+  showToast(`Ficha "${state.nome}" carregada!`,'#3388ff');
+}
+
+function resetState() {
+  state=freshState();
+  $('inp-nome').value=''; $('inp-raca').value='';
+  $('inp-ideais').value=''; $('inp-ligacoes').value=''; $('inp-defeitos').value='';
+  document.querySelectorAll('#tendencia-opts .resist-chip').forEach(b=>b.classList.remove('sel-r'));
+  ['combatente','conjurador','proficiente'].forEach(c=>{ const el=$('cc-'+c); if(el) el.classList.remove('selected'); });
+  $('classe-selected-info').style.display='none';
+  $('ocup-detail').className='ocup-detail';
+  $('ocup-legend').textContent='ESCOLHA 1 COM VANTAGEM (★) E ATÉ 2 APRENDIDAS (+1):';
+  $('pontos-restantes').textContent='10';
+  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.toggle('active',b.dataset.mode==='r'));
+  renderAttrInputs();
+  renderOcupGrid();
+  renderResistChips();
+  renderResistDisplay();
+}
+
+function renderFichasList() {
+  const fichas=loadFichas();
+  const container=$('fichas-list');
+  if(!fichas.length){
+    container.innerHTML='<div class="info-box"><strong>NENHUMA FICHA SALVA</strong>Crie uma ficha e clique em "Salvar Ficha" no sumário.</div>';
+    return;
+  }
+  container.innerHTML=fichas.map(f=>{
+    const con=f.atributos?.con||10, sab=f.atributos?.sab||10;
+    const pv=con+getMod(con), san=sab+getMod(sab);
+    const date=f._savedAt?new Date(f._savedAt).toLocaleDateString('pt-BR'):'—';
+    const ctags=(f.classes||[]).map(c=>{const clr=c==='combatente'?'#cc4444':c==='conjurador'?'#3388ff':'#c8a96e';return`<span style="font-family:'Cinzel',serif;font-size:.55rem;padding:2px 7px;border-radius:1px;margin:1px;display:inline-block;border:1px solid ${clr};color:${clr}">${c.charAt(0).toUpperCase()+c.slice(1)}</span>`;}).join('')||'<span style="color:#4a4a6a;font-size:.78rem">—</span>';
+    return`<div class="ficha-card"><div style="display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap">
+      <div style="flex:1;min-width:140px">
+        <div class="ficha-nome">${f.nome||'—'}</div>
+        <div class="ficha-sub">${f.raca||'—'} · ${f.ocupacao||'—'}</div>
+        <div style="margin-bottom:6px">${ctags}</div>
+        <div class="ficha-stats">
+          <span>❤ <strong style="color:#cc4444">${pv}</strong> PV</span>
+          <span>🧠 <strong style="color:#8a8acc">${san}</strong> SAN</span>
+          <span style="font-size:.7rem">Salvo: ${date}</span>
+        </div>
+      </div>
+      <div class="ficha-actions">
+        <button class="nav-btn" data-edit="${f._id}" style="font-size:.62rem;padding:7px 12px;border-color:#3388ff;color:#3388ff">✎ EDITAR</button>
+        <button class="nav-btn" data-view="${f._id}" style="font-size:.62rem;padding:7px 12px;border-color:var(--gold);color:var(--gold)">✦ VER FICHA</button>
+        <button class="nav-btn" data-export="${f._id}" style="font-size:.62rem;padding:7px 12px;border-color:#c8a96e;color:#c8a96e">⬇ JSON</button>
+        <button class="nav-btn" data-del="${f._id}" style="font-size:.62rem;padding:7px 12px;border-color:#cc4444;color:#cc4444">✕ DELETAR</button>
+      </div>
+    </div></div>`;
+  }).join('');
+  // Bind ficha actions
+  container.querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>carregarFicha(b.dataset.edit)));
+  container.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>{
+    carregarFicha(b.dataset.view);
+    setTimeout(()=>gerarFicha(),150);
+  }));
+  container.querySelectorAll('[data-export]').forEach(b=>b.addEventListener('click',()=>{
+    const ficha=loadFichas().find(f=>f._id===b.dataset.export);
+    if(ficha) exportarFicha(ficha);
+  }));
+  container.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',()=>{
+    pendingDeleteId=b.dataset.del;
+    $('delete-modal').classList.add('open');
+  }));
+}
+
+// ─── MODAL DELETE ──────────────────────────────────────────────────────────
+
+$('btn-cancel-delete').addEventListener('click',()=>{
+  $('delete-modal').classList.remove('open');
+  pendingDeleteId=null;
+});
+
+$('btn-confirm-delete').addEventListener('click',()=>{
+  if(!pendingDeleteId) return;
+  saveFichas(loadFichas().filter(f=>f._id!==pendingDeleteId));
+  $('delete-modal').classList.remove('open');
+  pendingDeleteId=null;
+  renderFichasList();
+  showToast('Ficha deletada.','#cc4444');
+});
+
+// Fechar modal clicando fora
+$('delete-modal').addEventListener('click',e=>{
+  if(e.target===$('delete-modal')){ $('delete-modal').classList.remove('open'); pendingDeleteId=null; }
+});
+
+// ─── EXPORT / IMPORT JSON ──────────────────────────────────────────────────
+
+function exportarFicha(fichaState) {
+  const nome = fichaState.nome || 'personagem';
+  const slug = nome.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');
+  const blob = new Blob([JSON.stringify(fichaState, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `triakorvo-${slug}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('JSON exportado!', '#c8a96e');
+}
+
+function importarFicha(file) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!data.nome && !data.atributos) { showToast('Arquivo inválido.','#cc4444'); return; }
+      // Garante _id novo se não tiver
+      if (!data._id) data._id = 'f_' + Date.now();
+      data._savedAt = new Date().toISOString();
+      const fichas = loadFichas();
+      const idx = fichas.findIndex(f => f._id === data._id);
+      if (idx >= 0) fichas[idx] = data; else fichas.unshift(data);
+      saveFichas(fichas);
+      showToast(`"${data.nome||'Ficha'}" importada!`, '#c8a96e');
+      renderFichasList();
+    } catch {
+      showToast('Erro ao ler o arquivo.', '#cc4444');
+    }
+  };
+  reader.readAsText(file);
+}
+
+$('btn-exportar').addEventListener('click', () => exportarFicha(state));
+
+$('btn-importar').addEventListener('click', () => $('input-importar').click());
+
+$('input-importar').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (file) { importarFicha(file); e.target.value = ''; }
+});
+
+// ─── BOTÕES FICHAS ─────────────────────────────────────────────────────────
+
+$('btn-nova-ficha').addEventListener('click',()=>{ resetState(); showStep(0); });
+$('btn-atualizar').addEventListener('click',renderFichasList);
+
+// ─── INIT ──────────────────────────────────────────────────────────────────
+
+renderAttrInputs();
+renderOcupGrid();
+renderResistChips();
+renderResistDisplay();
+
+}); // DOMContentLoaded
+</script>
+</body>
+</html>
